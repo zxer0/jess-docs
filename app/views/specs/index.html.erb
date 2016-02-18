@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<div>
+    <%= link_to "add new top-level spec", {:action => 'new' }%>
+    <%= link_to "add new tag type", {:controller => 'tag_types', :action => 'new' }%>
+    <%= link_to "edit tag types", tag_types_path %>
+    <%= form_tag '', :method => :get do %>
+        <label for = "@spec_tag_type_id">Filter by tag name</label>:
+        <%= collection_select(  :tags, 
+                                :tag_type_id, 
+                                @tag_types, 
+                                :id, 
+                                :name, 
+                                options={:selected => @selected_tag_type_id, 
+                                :include_blank => 'all tags'},
+                                html_options={:onchange=> 'submit()'}) %>
+        
+    <% end -%>
+</div>
+
+<% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
+<p>There are no specs 
+
+    <% if @selected_tag_type_id && @selected_tag_type_id != "" %>
+    with the tag
+    
+        <span class="tag" style="background-color: <%=TagType.find(@selected_tag_type_id).color %>">
+            <%= TagType.find(@selected_tag_type_id).name %> 
+        </span>
+    
+    <% end %>
+
+ currently in the system</p>
+<% else %>
+
+<div class="full-spec-list">
+    <%= render partial: "container", collection: @specs, as: :spec %>
+</div>
+
+<% end %>

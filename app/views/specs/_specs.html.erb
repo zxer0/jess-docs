@@ -1,0 +1,18 @@
+<span class="spec-list s<%=spec.id%> p<%=spec.parent_id%>">
+    <ul>      
+        <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec.id)) %>
+            <li>
+        
+                <%= render partial: "spec", object: spec %>
+                
+                <% if (spec.children.any?) %>
+                    <%= render partial: "specs", collection: spec.children, as: :spec %>
+                 
+                <% end %>
+            </li>
+        <% end %>
+    </ul>
+</span>
+
+  
+

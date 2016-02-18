@@ -1,0 +1,15 @@
+<h1>Editing Spec</h1>
+<%= @spec.print_tags.html_safe %>
+
+<%= form_for @spec, :url =>{:action => "update", :id =>@spec} do |f| %>
+
+    <p>
+        <%= f.collection_select :spec_type_id, SpecType.all, :id, :name %>
+        <%= f.text_field 'description' %>
+    </p>
+
+<%= f.submit "Save changes" %>
+<% end %>
+
+<%= link_to 'Show', @spec %> |
+<%= link_to 'Back', {:action => 'index' } %>

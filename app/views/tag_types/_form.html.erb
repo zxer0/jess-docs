@@ -1,0 +1,17 @@
+<%= form_for(@tag_type) do |f| %>
+  <% if @tag_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@tag_type.errors.count, "error") %> prohibited this tag_type from being saved:</h2>
+
+      <ul>
+      <% @tag_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

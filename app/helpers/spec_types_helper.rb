@@ -1,0 +1,2 @@
+module SpecTypesHelper
+end

@@ -1,0 +1,11 @@
+<p>
+   <strong><%= @spec.spec_type.name %></strong>
+   <%= @spec.description %><br />
+   
+</p>
+
+<hr />
+
+<%= link_to 'Back', {:action => 'index'} %>
+<%= link_to 'Edit', edit_spec_path(@spec) %> |
+

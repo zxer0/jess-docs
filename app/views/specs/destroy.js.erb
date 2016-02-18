@@ -1,0 +1,7 @@
+$('.delete_spec').bind('ajax:success', function() {
+   <% if only_child %>
+      $(this).closest('li').fadeOut();
+   <% else %>
+      $('#<%=oldest_parent.id%>').html("<%= j ( render partial: "specs", object: oldest_parent, as: :spec ).html_safe %>");
+   <% end %>
+});

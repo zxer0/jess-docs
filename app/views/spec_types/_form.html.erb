@@ -1,0 +1,17 @@
+<%= form_for(@spec_type) do |f| %>
+  <% if @spec_type.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@spec_type.errors.count, "error") %> prohibited this spec_type from being saved:</h2>
+
+      <ul>
+      <% @spec_type.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

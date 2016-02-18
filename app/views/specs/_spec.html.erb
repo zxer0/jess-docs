@@ -1,0 +1,23 @@
+<span class="spec">
+    <div class="data">
+        <span class="spec-type"><%= spec.spec_type.name %></span>
+        <%= spec.description %>
+
+
+        <span class="tags">
+            <%= render partial: "tag", collection: spec.tags %>
+        </span>
+    </div>        
+    <div class="links">
+        <%= link_to 'add tag', new_tag_path(:id => spec.id) %>
+        <%= link_to 'edit', edit_spec_path(spec) %>
+              
+        <% if !spec.bottom? %>
+            <%= link_to 'add child', new_spec_path(:id =>spec.id, :add_child => true) %>
+        <% end %>
+        
+        <%= link_to 'add parent', new_spec_path(:id => spec.id) %>
+        
+        <%= link_to 'x', spec, method: :delete, data: { confirm: 'Are you sure?' }, :remote => true, :class => 'delete_spec' %>
+    </div>
+</span>

@@ -1,0 +1,56 @@
+<% def print_specs(specs, filter_ids: nil) %>
+    
+    <ol>
+        
+    <% specs.each do |s| %>
+          
+        <% if (filter_ids.nil? || filter_ids.include?(s.id)) %>
+          <li>
+          
+          <%= render partial: "spec", object: @spec %>
+        
+          <% if (s.children.any?) %>
+              <% print_specs(s.children, :filter_ids => filter_ids) %>
+          <% end %>
+          </li>
+        <% end %>
+          
+      <% end %>
+      
+    </ol>
+
+<% end %>
+
+<!--<% def print_spec_line(spec) %>-->
+<!--    <p>-->
+<!--        <strong><%= spec.spec_type.name %> </strong>-->
+<!--        <%= spec.description %>-->
+<!--    </p>-->
+      
+<!--    <%= render partial: "tag", collection: @spec.tags %>-->
+      
+<!--    <br />-->
+<!--    <% link_to 'add tag', new_tag_path(:id => spec.id) %>-->
+
+<!--      <% link_to('edit', edit_spec_path(spec) %>-->
+      
+<!--      <% if !spec.bottom? %>-->
+<!--        <% link_to 'add child', new_spec_path(:id =>spec.id, :add_child => true) %>-->
+<!--      <% end %>-->
+
+<!--      <% link_to('add parent', new_spec_path(:id => spec.id) %>-->
+
+<!--      <% link_to 'x', spec, method: :delete, data: { confirm: 'Are you sure?' }, :remote => true, :class => 'delete_spec' %>-->
+
+<!--<% end %>-->
+
+<!--<% def print_tags(spec) %>-->
+      
+<!--  <% spec.tags.each do |tag| %>-->
+<!--    <span class="tag" style="background-color:#{tag.color}">-->
+<!--    <%= tag.name %>-->
+<!--    <% link_to 'x', tag, method: :delete, :remote => true, :class => 'delete_tag' %>-->
+<!--    </span>-->
+<!--  <% end %>-->
+      
+<!--<% end %>-->
