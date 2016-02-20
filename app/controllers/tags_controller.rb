@@ -29,7 +29,7 @@ class TagsController < ApplicationController
     @tag = Tag.new(tag_params)
     
     if @tag.save
-      redirect_to '/specs'
+      # redirect_to '/specs'
     else
       redirect_to :action => 'new', :id => tag_params[:spec_id]
     end

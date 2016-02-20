@@ -13,20 +13,13 @@
  *= require_tree .
  *= require_self
  */
-.tag {
-    border-radius:10px;
-    -moz-border-radius:10px 10px 10px 10px;
-    border:solid 1px #000;
-    color: #FFFFFF;
-    padding:1px 10px;
-}
+ 
+@import "bootstrap-sprockets"
+@import "bootstrap"
 
-.tag a {
-    text-decoration: none;
-    color: white;
-    background-color: transparent;
-}
+.tag a, a:hover, a:focus 
+    text-decoration: none
+    background-color: transparent
 
-.spec-type {
-    font-weight: bold;
-}
+.spec-data
+    padding: 5px

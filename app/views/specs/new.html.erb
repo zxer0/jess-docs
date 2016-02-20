@@ -1,8 +1,8 @@
-<h1>Add new Spec</h1>
-<% if !@parent.nil? %>
-    <p><strong><%= @parent.spec_type.name %></strong>
-        <%= @parent.description %></p>
-<% end %>
+<!--<h1>Add new Spec</h1>-->
+<!--<% if !@parent.nil? %>-->
+<!--    <p><strong><%= @parent.spec_type.name %></strong>-->
+<!--        <%= @parent.description %></p>-->
+<!--<% end %>-->
 
 <!--<%= form_tag :action => 'create' do %>-->
 
@@ -13,18 +13,20 @@
 <!--<% end -%>-->
 
 
-<%= form_for(Spec.new, :action => 'create' ) do |f| %>
+<!--<%= form_for(Spec.new, :action => 'create' ) do |f| %>-->
 
-<p><%= f.collection_select :spec_type_id, @spec_types, :id, :name %>
-    <%= f.text_field 'description' %></p>
-    <% if !@parent.nil? %>
-        <%= f.hidden_field :parent_id, value: @parent.id %>
-    <% end %>
-    <% if !@child.nil? %>
-        <%= f.hidden_field :child_id, value: @child.id %>
-    <% end %>
-<%= f.submit %>
+<!--<p><%= f.collection_select :spec_type_id, @spec_types, :id, :name %>-->
+<!--    <%= f.text_field 'description' %></p>-->
+<!--    <% if !@parent.nil? %>-->
+<!--        <%= f.hidden_field :parent_id, value: @parent.id %>-->
+<!--    <% end %>-->
+<!--    <% if !@child.nil? %>-->
+<!--        <%= f.hidden_field :child_id, value: @child.id %>-->
+<!--    <% end %>-->
+<!--<%= f.submit %>-->
 
-<% end -%>
+<!--<% end -%>-->
 
-<%= link_to 'Back', {:action => 'index'} %>
+<!--<%= link_to 'Back', {:action => 'index'} %>-->
+
+<!--<%= render "form" %>-->

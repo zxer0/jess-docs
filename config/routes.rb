@@ -3,7 +3,6 @@ Rails.application.routes.draw do
   resources :tags
   resources :spec_types
   resources :specs
-  resources :recipes
   
   get 'specs/list'
   get 'specs/new'
@@ -12,7 +11,7 @@ Rails.application.routes.draw do
   get 'specs/list'
   get 'specs/show'
   get 'specs/edit'
-  get 'specs/delete'
+  post 'specs/destroy'
   get 'specs/update'
   get 'specs/show_spec_types'
   

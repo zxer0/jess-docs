@@ -1,5 +1,7 @@
 <h1>Editing Spec</h1>
-<%= @spec.print_tags.html_safe %>
+<div class="spec-data">
+    <%= render partial: "specs/data", object: @spec, as: :spec %>
+</div>
 
 <%= form_for @spec, :url =>{:action => "update", :id =>@spec} do |f| %>
 

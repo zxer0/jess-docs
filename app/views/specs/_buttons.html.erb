@@ -1,0 +1,29 @@
+<div class="btn-group btn-group-xs" role="group">
+    <%= link_to 'add tag', 
+                new_tag_path(:id => spec.id), 
+                remote:true, 
+                class: "btn btn-default" %>
+                
+    <%= link_to 'edit', 
+                edit_spec_path(spec), 
+                remote:true, 
+                class: "btn btn-default" %>
+          
+    <% if !spec.bottom? %>
+        <%= link_to 'add child', 
+                    new_spec_path(  :id =>spec.id, 
+                                    :add_child => true),
+                    remote:true,
+                    class: "btn btn-default" %>
+    <% end %>
+    
+    <%= link_to 'add parent', 
+                new_spec_path(:id => spec.id), 
+                remote: true,
+                class: "btn btn-default" %>
+    
+    <%= link_to 'x', spec, 
+                method: :delete,
+                class: "delete_spec btn btn-default",
+                :remote => true %>
+</div>

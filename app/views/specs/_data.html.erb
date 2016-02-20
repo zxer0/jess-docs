@@ -1,0 +1,9 @@
+<span class="spec-type">
+    <%= spec.spec_type.name %>
+</span>
+
+<%= spec.description %>
+
+<span class="tags">
+    <%= render partial: "tags/show", collection: spec.tags, as: :tag %>
+</span>

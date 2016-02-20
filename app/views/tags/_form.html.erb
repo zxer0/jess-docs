@@ -1,17 +1,26 @@
-<%= form_for(@tag) do |f| %>
-  <% if @tag.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@tag.errors.count, "error") %> prohibited this tag from being saved:</h2>
+<div class="modal-dialog">
 
-      <ul>
-      <% @tag.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
+  <div class="modal-content">
+    
+    <div class="modal-header">
+      <h4 class="modal-title">tag spec</h4>
     </div>
-  <% end %>
+    
+    <%= form_for @tag, remote: true  do |f| %>
+      <div class="modal-body">
+        <ul class="errors"></ul>
 
-  <div class="actions">
-    <%= f.submit %>
+        <div class="form-group">
+          <%= f.collection_select :tag_type_id, @tag_types, :id, :name, class: "form-control" %>
+          <%= f.hidden_field :spec_id, value: @spec.id %>
+        </div>
+        
+      </div>
+      
+      <div class="modal-footer">
+        <%= f.submit class: "btn btn-primary" %>
+        <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+</div>

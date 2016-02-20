@@ -7,4 +7,11 @@ class TagType < ActiveRecord::Base
     has_many :tags, dependent: :destroy
     
     default_scope { order("LOWER(name)") }
+    
+    before_create :downcase
+    
+    private
+        def downcase
+            self.name.downcase!
+        end
 end

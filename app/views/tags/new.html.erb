@@ -1,10 +1,8 @@
 <h1>Add Tag</h1>
 
-<p>
-   <strong><%= @spec.spec_type.name %></strong>
-   <%= @spec.description %><br />
-    <%= @spec.print_tags.html_safe %>
-</p>
+<div class="spec-data">
+    <%= render partial: "specs/data", object: @spec, as: :spec %>
+</div>
 
 <%= form_for(Tag.new, :action => 'create' ) do |f| %>
 

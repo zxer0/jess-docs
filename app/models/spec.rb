@@ -47,7 +47,7 @@ class Spec < ActiveRecord::Base
         
         tagged_specs = Spec.find(spec_id_list)
         
-        specs_to_print = [] #Spec.find(spec_id_list) #tagged_specs
+        specs_to_print = []
         tagged_specs.map do |tagged_spec|
             specs_to_print.concat tagged_spec.heritage
             specs_to_print.concat tagged_spec.children
@@ -68,16 +68,4 @@ class Spec < ActiveRecord::Base
         
         spec_array
     end
-    
-    # def print_tags
-    #     contents = ""
-    #     # @spec = Spec.find(params[:id])
-    #     self.tags.each do |tag|
-    #       contents << "<span class=\"tag\" style=\"background-color:#{tag.color}\">"
-    #       contents << "#{tag.name}"
-    #       contents << "</span> "
-    #     end
-        
-    #     contents
-    # end
 end

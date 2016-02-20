@@ -1,0 +1,8 @@
+$("#spec-modal").html("<%= escape_javascript(render 'edit') %>")
+$("#spec-modal").modal("show")
+
+$('#submit').on('click', function() {
+    var btn = $('#submit').prop('disabled', true);
+    btn.button('loading');
+    $(this.form).submit();
+});

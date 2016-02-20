@@ -1,0 +1,10 @@
+$("ul.errors").html("")
+<% if @tag.errors.any? %>
+  <% @tag.errors.full_messages.each do |message| %>
+    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+  <% end %>
+<% else %>
+  var tagElem = $("#<%=@tag.spec.id%> span.tags");
+  $("#spec-modal").modal("hide");
+  tagElem.html("<%= j(render partial: "tags/show", collection: @tag.spec.tags, as: :tag) %>");
+<% end %>

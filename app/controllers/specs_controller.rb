@@ -7,15 +7,13 @@ class SpecsController < ApplicationController
     @filtered_spec_ids = nil
     
     if filter_params
-      @selected_tag_type_id = filter_params #params[:tags][:tag_type_id]
-      @filtered_spec_ids = Spec.filter(@selected_tag_type_id).map(&:id) #Spec.all
+      @selected_tag_type_id = filter_params 
+      @filtered_spec_ids = Spec.filter(@selected_tag_type_id).map(&:id) 
     else
-      # @specs = Spec.get_top_level(Spec.all)
+     
     end
     @specs = Spec.get_top_level(Spec.all)
     
-    # @spec_list = print_specs(:specs => @specs, :filter_ids => @filtered_spec_ids)
-    # puts "spec list = #{@spec_list}"
     puts "filtered_spec_ids = #{@filtered_spec_ids}"
     @tag_types = TagType.all
   end
@@ -63,7 +61,8 @@ class SpecsController < ApplicationController
         @spec.update!(:parent_id => @child.parent_id)
         @spec.children << @child
       end
-      redirect_to :action => 'index'
+      
+      # redirect_to :action => 'index'
     else
       @spec_types = SpecType.all
       render :action => 'new'
@@ -77,7 +76,7 @@ class SpecsController < ApplicationController
     @spec = Spec.find(params[:id])
 	
     if @spec.update_attributes(spec_param)
-      redirect_to :action => 'index', :id => @spec
+      # redirect_to :action => 'index', :id => @spec
     else
       @spec_types = SpecType.all
       render :action => 'edit'
@@ -130,9 +129,6 @@ class SpecsController < ApplicationController
     end
     
     def filter_params
-      # if !(params[:tags].nil?)
-      #   params.require(:tag_type_id)
-      # end
       if params && params[:tags] && params[:tags][:tag_type_id] != ""
         params.require(:tags).require(:tag_type_id)
         return params[:tags][:tag_type_id]
@@ -144,67 +140,4 @@ class SpecsController < ApplicationController
       @spec_type = SpecType.find(params[:id])
     end
     
-    # def print_specs(specs:, contents: nil, filter_ids: nil)
-        
-    #   if (contents.nil?)
-    #       contents = ""
-    #   end
-      
-      
-    #   specs.each do |s|
-    #       contents << "<ul>"
-          
-    #     if (filter_ids.nil? || filter_ids.include?(s.id))
-    #       contents << "<li>"
-    #       contents << print_spec_line(s)
-        
-    #       if (s.children.any?)
-    #           print_specs(:specs => s.children, 
-    #                       :contents => contents, 
-    #                       :filter_ids => filter_ids)
-    #       end
-    #       contents << "</li>"
-    #     end
-    #     contents << "</ul>"  
-    #   end
-      
-      
-      
-    #   contents.html_safe
-    # end
-    
-    # def print_spec_line(spec)
-    #   contents = ""
-    #   contents << "<strong>#{spec.spec_type.name}</strong> "
-    #   contents << "#{spec.description} "
-      
-    #   contents << print_tags(spec)
-      
-    #   contents << "<br />"
-    #   contents << view_context.link_to('add tag', new_tag_path(:id => spec.id))
-    #   contents << " "
-    #   contents << view_context.link_to('edit', edit_spec_path(spec))
-    #   contents << " "
-    #   if !spec.bottom?
-    #     contents << view_context.link_to('add child', new_spec_path(:id =>spec.id, :add_child => true) )
-    #   end
-    #   contents << " "
-    #   contents << view_context.link_to('add parent', new_spec_path(:id => spec.id))
-    #   contents << " "
-    #   contents << view_context.link_to('x', spec, method: :delete, data: { confirm: 'Are you sure?' }, :remote => true, :class => 'delete_spec')
-    #   contents
-    # end
-    
-    # def print_tags(spec)
-    #   contents = ""
-      
-    #   spec.tags.each do |tag|
-    #     contents << "<span class=\"tag\" style=\"background-color:#{tag.color}\">"
-    #     contents << "#{tag.name} "
-    #     contents << view_context.link_to('x', tag, method: :delete, :remote => true, :class => 'delete_tag')
-    #     contents << "</span> "
-    #   end
-      
-    #   contents
-    # end
 end
