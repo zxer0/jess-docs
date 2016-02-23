@@ -2,13 +2,20 @@
     <ul>      
         <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec.id)) %>
             <li>
-        
                 <%= render partial: "spec", object: spec %>
-                
                 <% if (spec.children.any?) %>
-                    <%= render partial: "specs", collection: spec.children, as: :spec %>
+                
+                    
+                
+                    <div class="children collapse in" id="<%=spec.id%>children">
+                        <%= render partial: "specs", 
+                                collection: 
+                                spec.children, 
+                                as: :spec %>
                  
+                    </div>
                 <% end %>
+                
             </li>
         <% end %>
     </ul>

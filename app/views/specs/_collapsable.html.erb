@@ -1,0 +1,16 @@
+<div>
+
+    <script>
+    <%= j render(partial: 'collapse.js.erb', object: spec, as: :spec) %>
+   </script>
+    <span class="btn-group">
+        <span   class="btn btn-xs"
+                data-toggle="collapse" 
+                href="#<%=spec.id%>children"
+                id = "#<%=spec.id%>btn">
+            <span class="glyphicon glyphicon-minus"></span>
+        </span>
+        
+        <%= render partial: "spec", object: spec %>
+    </span>
+</div>

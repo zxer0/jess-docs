@@ -25,30 +25,41 @@ class TagTypesController < ApplicationController
   # POST /tag_types.json
   def create
     @tag_type = TagType.new(tag_type_params)
-
-    respond_to do |format|
-      if @tag_type.save
-        format.html { redirect_to '/specs'}
-        format.json { render :show, status: :created, location: @tag_type }
-      else
-        format.html { render :new }
-        format.json { render json: @tag_type.errors, status: :unprocessable_entity }
-      end
+    if @tag_type.save
+      # redirect_to '/specs'
+    else
+      render :action => 'new'
     end
+    # respond_to do |format|
+    #   if @tag_type.save
+    #     # format.html { redirect_to '/specs'}
+    #     # format.json { render :show, status: :created, location: @tag_type }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @tag_type.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /tag_types/1
   # PATCH/PUT /tag_types/1.json
   def update
-    respond_to do |format|
-      if @tag_type.update(tag_type_params)
-        format.html { redirect_to @tag_type, notice: 'Tag type was successfully updated.' }
-        format.json { render :show, status: :ok, location: @tag_type }
-      else
-        format.html { render :edit }
-        format.json { render json: @tag_type.errors, status: :unprocessable_entity }
-      end
+    
+    
+    if @tag_type.update(tag_type_params)
+      # redirect_to '/specs'
+    else
+      render :action => 'edit'
     end
+    # respond_to do |format|
+    #   if @tag_type.update(tag_type_params)
+    #     format.html { redirect_to @tag_type, notice: 'Tag type was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @tag_type }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @tag_type.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /tag_types/1

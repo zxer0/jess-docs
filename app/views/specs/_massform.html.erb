@@ -1,0 +1,37 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">mass-add specs</h4>
+    </div>
+    <%= form_tag('/specs/mass_add', method:'post', remote:true) do |f| %>
+      <div class="modal-body">
+        <ul class="errors"></ul>
+
+        <div class="form-group">
+          
+          <div id="helpBlock" class="help-block">
+            Enter multiple specs at a time. Each line denotes a new spec. Specs 
+            must start with a valid spec type (e.g., 'it' or 'describe'). Nest specs 
+            either by using tabs or -'s</div>
+            <div class="panel panel-default">
+              <div class="panel-heading">example</div>
+              <div class="panel-body">
+                describe someone really cool<br />
+                - it is jess <br />
+                -- describe this one will be level 3 <br />
+                this one won't save at all
+              </div>
+            </div>
+          
+          <%= text_area_tag :text,'', rows: 15, class:"form-control" %>
+          
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <%= submit_tag('submit', id: 'mass-submit', class: "btn btn-primary") %>
+        <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+      </div>
+    <% end %>
+  </div>
+</div>

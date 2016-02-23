@@ -82,6 +82,17 @@ class SpecsController < ApplicationController
       render :action => 'edit'
     end
   end
+  
+  #GET /spec/mass_add_view
+  def mass_add_view
+    
+  end
+  
+  #POST /spec/mass_add
+  def mass_add
+    Spec.parse_block(params[:text])
+    # redirect_to :action => 'index'
+  end
 
   # DELETE /specs/1
   # DELETE /specs/1.json
@@ -93,8 +104,10 @@ class SpecsController < ApplicationController
       @parent = Spec.find(new_parent_id)
     end
     
-    oldest_parent = @spec.oldest_parent
-    only_child = @spec.only_child?
+    deleted_parent_id = @spec.parent_id
+    parent_of_parent_id = @spec.parent.nil? ? nil : @spec.parent.parent_id
+    has_children = @spec.children.any?
+    deleted_id = params[:id]
     
     #won't somebody please think of the children
     @spec.children.each do |child|
@@ -107,8 +120,11 @@ class SpecsController < ApplicationController
       format.html { redirect_to specs_url, notice: 'Spec was successfully destroyed.' }
       format.json { head :no_content }
       format.js   { render :layout => false, 
-                    :locals => {:oldest_parent => oldest_parent, 
-                                :only_child => only_child} }
+                    :locals => {:deleted_parent_id => deleted_parent_id, 
+                                :has_children => has_children,
+                                :deleted_id => deleted_id,
+                                :parent_of_parent_id => parent_of_parent_id
+                    } }
     end
   end
 
@@ -126,6 +142,10 @@ class SpecsController < ApplicationController
     
     def spec_param
       params.require(:spec).permit(:description, :spec_type_id)
+    end
+    
+    def mass_add_params
+      params.require(:text)
     end
     
     def filter_params

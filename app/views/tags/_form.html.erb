@@ -11,10 +11,15 @@
         <ul class="errors"></ul>
 
         <div class="form-group">
-          <%= f.collection_select :tag_type_id, @tag_types, :id, :name, class: "form-control" %>
+          <%= f.collection_select :tag_type_id, 
+                @tag_types, 
+                :id, 
+                :name, 
+                {},
+                {class: "form-control"} %>
           <%= f.hidden_field :spec_id, value: @spec.id %>
         </div>
-        
+       
       </div>
       
       <div class="modal-footer">

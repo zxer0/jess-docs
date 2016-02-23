@@ -1,0 +1,10 @@
+$("#<%=spec.id%>children").on("hidden.bs.collapse", function(){
+    $("#<%=spec.id%>btn").removeClass('glyphicon-plus');
+    $("#<%=spec.id%>btn").addClass('glyphicon-plus');
+    
+});
+
+$("#<%=spec.id%>children").on("shown.bs.collapse", function(){
+    $("#<%=spec.id%>btn").html('<span class="glyphicon glyphicon-minus"></span>');
+});
+

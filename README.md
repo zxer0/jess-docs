@@ -24,9 +24,13 @@ Visit http://docs.c9.io for support, or to learn more about using Cloud9 IDE.
 To watch some training videos, visit http://www.youtube.com/user/c9ide
 
 stuff i want to do:
-- read from file
 - expand/contract specs
 - soft delete instead of hard delete?
 - checkboxes to edit multiple?
 - adding a parent at top level makes spec go all the way to the bottom. i mean i guess that makes sense
 - make stuff endpoints
+- fix deleting stuff
+- mass apply tags
+- mass edit
+- editing does not need to refresh the whole page
+- validation on mass add

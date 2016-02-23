@@ -1,0 +1,13 @@
+<p>
+ <%= form_tag('mass_add', method:'post') do |f| %>
+     
+
+        <div class="form-group" }>
+            <%= text_area_tag :text,'', size:"80x10" %>
+          
+        </div>
+        
+    <%= submit_tag('submit') %>
+      
+<% end %>
+</p>

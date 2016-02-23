@@ -1,0 +1,14 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <div class="modal-header">
+        <h4 class="modal-title">tags</h4>
+    </div>
+    <div class="modal-body">
+        <%= render partial: "show", collection: @tag_types, as: :tag_type %>
+    </div>
+    <div class="modal-footer">
+        <%= link_to "okay", "#", class: "btn btn-primary", data: {dismiss: "modal"} %>
+    </div>
+      
+  </div>
+</div>

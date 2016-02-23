@@ -68,4 +68,42 @@ class Spec < ActiveRecord::Base
         
         spec_array
     end
+    
+    def self.parse_block(text)
+        self.parse(text.split("\n"))
+    end
+    
+    def self.parse(text_array, depth=0, previous=nil, error_count=0)
+        regex = /(\t*|-*)\s*(\bdescribe\b|\bit\b)\s(.*)/
+        unless text_array.any?
+            return error_count
+        end
+        
+        line = text_array.first
+        tabs, spec_type, spec_description = line.scan(regex).first
+        spec_depth = tabs.nil? ? 0 : tabs.length
+        
+        begin
+            spec = Spec.create!(:description => spec_description,
+                            :spec_type => SpecType.find_by!(:name=> spec_type))
+            if(depth == spec_depth)
+                parent_id = previous.nil? ? nil : previous.parent_id
+                spec.update!(:parent_id => parent_id)
+            elsif (spec_depth > depth) #deeper in, set the parent
+                spec.update!(:parent_id => previous.id)
+            else #spec_depth < depth. farther out... no idea
+                (1+depth-spec_depth).times do #this is how far back we need to go
+                    previous = previous.parent
+                end
+                parent_id = previous.nil? ? nil : previous.id
+                spec.update!(:parent_id => parent_id)
+            end
+        rescue => error
+            puts error.inspect
+        end
+        
+        text_array.delete(line)
+        self.parse(text_array, spec_depth, spec, error_count)
+    end
+    
 end

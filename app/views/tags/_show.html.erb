@@ -1,4 +1,6 @@
 <span class="label label-default tag" style="background-color: <%= tag.color %>">
     <%= tag.name %>
-    <%= link_to 'x', tag, method: :delete, :remote => true, :class => 'delete_tag' %>
+    
+    <%= link_to 'x', tag, method: :delete, :remote => true, :class => 'delete_tag hidden' %>
+    
 </span>

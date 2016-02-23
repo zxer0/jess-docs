@@ -1,7 +1,16 @@
 $('.delete_spec').bind('ajax:success', function() {
-   <% if only_child %>
+   <% unless has_children %>
       $(this).closest('li').fadeOut();
    <% else %>
-      $('#<%=oldest_parent.id%>').html("<%= j ( render partial: "specs", object: oldest_parent, as: :spec ).html_safe %>");
+      <!--need to handle case where parent has no parents-->
+      var deletedListElem = $('.s<%=deleted_id%>.p<%=deleted_parent_id%>');
+      var deletedChildren = $('#<%=deleted_id%>children li');
+      
+      var newListElem = $('#<%=deleted_parent_id%>children ul');
+      
+      
+      $(this).closest('li').fadeOut();
+      newListElem.append(deletedChildren);
+      $('#<%=deleted_parent_id%> ul li:last').fadeIn('slow');
    <% end %>
 });

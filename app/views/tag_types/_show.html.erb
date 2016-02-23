@@ -1,0 +1,19 @@
+<span>
+    <h4>
+        <span   class="label label-default tag" 
+                style="background-color: <%= tag_type.color %>">
+            <%= tag_type.name %>
+        </span>
+                
+        <span class="btn-group btn-group-xs" role="group">
+            <%= link_to '', 
+                        edit_tag_type_path(tag_type),
+                        remote: true,
+                        class: "btn btn-default glyphicon glyphicon-pencil" %>
+            <%= link_to '', tag_type, 
+                        method: :delete,
+                        class: "delete_tag_type btn btn-default glyphicon glyphicon-trash",
+                        :remote => true %>
+        </span>
+    </h4>
+</span>

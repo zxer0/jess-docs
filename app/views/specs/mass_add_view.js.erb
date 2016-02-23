@@ -1,0 +1,8 @@
+$("#spec-modal").html("<%= j(render 'mass_add_view') %>")
+$("#spec-modal").modal("show")
+
+$('#mass-submit').on('click', function() {
+    var btn = $('#mass-submit').prop('disabled', true);
+    btn.button('loading');
+    $(this.form).submit();
+});

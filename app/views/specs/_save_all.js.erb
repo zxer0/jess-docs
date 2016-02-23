@@ -1,0 +1,2 @@
+$("#spec-modal").modal("hide");
+$(".full-spec-list").html("<%= j(render partial: "container", collection: Spec.get_top_level, as: :spec) %>");

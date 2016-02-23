@@ -1,5 +1,10 @@
+<%= javascript_include_tag "editable" %></script>
+
 <nav class="navbar navbar-default">
-    <div class="container">
+    <div class="navbar-header">
+        <h2>Jessdocs 2.0</h2>
+    </div>
+    <div class="container-fluid">
         
         <div class="btn-toolbar">
             <div class="btn-group">
@@ -7,20 +12,34 @@
                             new_spec_path, 
                             remote: true, 
                             class: "btn btn-default" %>
+                <%= link_to "mass add specs", 
+                            mass_add_view_specs_path,
+                            remote:true,
+                            class: "btn btn-default" %>
+                <button type="button" 
+                        class="btn btn-default"
+                        data-toggle="collapse"
+                        data-target=".editable"
+                        onclick="toggleTagEdit()">
+                     edit specs
+                </button>
+
             </div>
-                <div class="btn-group">
+            <div class="btn-group">
                 <%= link_to "add new tag type", 
                             new_tag_type_path,
-                            class: "btn btn-default"%>
+                            remote: true,
+                            class: "btn btn-default" %>
                 <%= link_to "edit tag types", 
                             tag_types_path,
+                            remote: true,
                             class: "btn btn-default"%>
             </div>
         </div>
         <div>
             <%= form_tag '', 
                         :method => :get,
-                        :class => 'form-inline' do %>
+                        :class => 'form-inline tag-select' do %>
                 <label for = "@spec_tag_type_id">Filter by tag name</label>:
                 <%= collection_select(  :tags, 
                                         :tag_type_id, 
@@ -32,7 +51,7 @@
                                         {:onchange=> 'submit()',
                                         class: "form-control"}) %>
                 
-            <% end -%>
+            <% end %>
         </div>
     </div>
 </nav>

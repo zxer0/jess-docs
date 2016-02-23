@@ -2,18 +2,12 @@ Rails.application.routes.draw do
   resources :tag_types
   resources :tags
   resources :spec_types
-  resources :specs
-  
-  get 'specs/list'
-  get 'specs/new'
-  post 'specs/create'
-  patch 'specs/update'
-  get 'specs/list'
-  get 'specs/show'
-  get 'specs/edit'
-  post 'specs/destroy'
-  get 'specs/update'
-  get 'specs/show_spec_types'
+  resources :specs do
+    collection do
+      get 'mass_add_view'
+      post 'mass_add'
+    end
+  end
   
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

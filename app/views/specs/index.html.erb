@@ -9,8 +9,8 @@
 
     <% if @selected_tag_type_id && @selected_tag_type_id != "" %>
     with the tag
-    
-        <span class="tag" style="background-color: <%=TagType.find(@selected_tag_type_id).color %>">
+
+        <span class="tag label label-default" style="background-color: <%=TagType.find(@selected_tag_type_id).color %>">
             <%= TagType.find(@selected_tag_type_id).name %> 
         </span>
     
