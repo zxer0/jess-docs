@@ -1,0 +1,3 @@
+$('.tag-select').bind('ajax:success', function() {
+   $('.full-spec-list').html('<%= j (render partial: 'container', collection: @specs, as: :spec) %>')
+});

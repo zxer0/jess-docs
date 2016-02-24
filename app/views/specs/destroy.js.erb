@@ -2,15 +2,21 @@ $('.delete_spec').bind('ajax:success', function() {
    <% unless has_children %>
       $(this).closest('li').fadeOut();
    <% else %>
-      <!--need to handle case where parent has no parents-->
-      var deletedListElem = $('.s<%=deleted_id%>.p<%=deleted_parent_id%>');
-      var deletedChildren = $('#<%=deleted_id%>children li');
-      
-      var newListElem = $('#<%=deleted_parent_id%>children ul');
-      
-      
       $(this).closest('li').fadeOut();
-      newListElem.append(deletedChildren);
-      $('#<%=deleted_parent_id%> ul li:last').fadeIn('slow');
+      <% if deleted_parent_id.nil? %>
+         
+         $('.full-spec-list').append("<%= escape_javascript (render partial: 'specs', collection: Spec.find(child_ids), as: :spec) %>");
+  
+      <% else %>
+         
+         var elem3 = $('.s<%=deleted_parent_children.first%>.p<%deleted_id%>')
+         
+         $('<%=deleted_id%>').fadeOut();
+         $('<%=deleted_id%>').remove();
+         elem3.unwrap().unwrap().unwrap().unwrap()
+      <% end %>
+      //need to set new span class also...
+      // also need to handle case of multiple children??
    <% end %>
+   
 });

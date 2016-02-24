@@ -34,3 +34,5 @@ stuff i want to do:
 - mass edit
 - editing does not need to refresh the whole page
 - validation on mass add
+- in mass add, specs that start with 'should' are 'it's else describe
+- projects, for sure

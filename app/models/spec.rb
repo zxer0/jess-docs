@@ -3,6 +3,7 @@ class Spec < ActiveRecord::Base
     belongs_to :parent, class_name: "Spec"
     
     belongs_to :spec_type
+    belongs_to :project
     has_many :tags, dependent: :destroy
     
     validates_presence_of :description
@@ -36,23 +37,33 @@ class Spec < ActiveRecord::Base
         specs_array.select{ |spec| spec.parent_id == nil}
     end
     
-    def self.filter(tag_type_id=nil)
+    def self.filter_by_tag_type(tag_type_id=nil, spec_list=nil)
+        spec_list = spec_list || Spec.all
+        
         if tag_type_id.nil? || tag_type_id == ""
-            return Spec.all
+            return spec_list
         end
         
         tags = Tag.where(:tag_type_id => tag_type_id)
         
         spec_id_list = tags.map(&:spec_id)
         
-        tagged_specs = Spec.find(spec_id_list)
+        tagged_specs = spec_list.where(:id => spec_id_list)
         
         specs_to_print = []
-        tagged_specs.map do |tagged_spec|
+        tagged_specs.each do |tagged_spec|
             specs_to_print.concat tagged_spec.heritage
             specs_to_print.concat tagged_spec.children
         end
         specs_to_print
+    end
+    
+    def self.filter_by_project(project_id=nil)
+        if project_id.nil?
+            return Spec.all
+        end
+        
+        Spec.where(:project_id => project_id)
     end
     
     def heritage(spec_array=nil)

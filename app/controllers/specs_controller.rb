@@ -4,17 +4,25 @@ class SpecsController < ApplicationController
   # GET /specs
   # GET /specs.json
   def index
-    @filtered_spec_ids = nil
+    @filtered_spec_ids = Spec.all.map(&:id)
+    @projects = Project.all
     
-    if filter_params
-      @selected_tag_type_id = filter_params 
-      @filtered_spec_ids = Spec.filter(@selected_tag_type_id).map(&:id) 
+    if filter_params.any?
+      @selected_project_id = filter_params[:project_id]
+      puts "@selected_project_id = #{@selected_project_id}"
+      
+      filtered_specs = Spec.filter_by_project(@selected_project_id)
+      puts "filtered_specs = #{filtered_specs}"
+      
+      @selected_tag_type_id = filter_params[:tag_type_id] 
+      @filtered_spec_ids = Spec.filter_by_tag_type(@selected_tag_type_id, filtered_specs).map(&:id)
+      
     else
      
     end
-    @specs = Spec.get_top_level(Spec.all)
-    
+    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
     puts "filtered_spec_ids = #{@filtered_spec_ids}"
+    
     @tag_types = TagType.all
   end
 
@@ -108,6 +116,7 @@ class SpecsController < ApplicationController
     parent_of_parent_id = @spec.parent.nil? ? nil : @spec.parent.parent_id
     has_children = @spec.children.any?
     deleted_id = params[:id]
+    child_ids = @spec.children.map(&:id)
     
     #won't somebody please think of the children
     @spec.children.each do |child|
@@ -116,6 +125,8 @@ class SpecsController < ApplicationController
     
     @spec.destroy
     
+    deleted_parent_children = deleted_parent_id.nil? ? nil : Spec.find(deleted_parent_id).children.map(&:id)
+    
     respond_to do |format|
       format.html { redirect_to specs_url, notice: 'Spec was successfully destroyed.' }
       format.json { head :no_content }
@@ -123,7 +134,9 @@ class SpecsController < ApplicationController
                     :locals => {:deleted_parent_id => deleted_parent_id, 
                                 :has_children => has_children,
                                 :deleted_id => deleted_id,
-                                :parent_of_parent_id => parent_of_parent_id
+                                :parent_of_parent_id => parent_of_parent_id,
+                                :child_ids => child_ids,
+                                :deleted_parent_children => deleted_parent_children
                     } }
     end
   end
@@ -149,11 +162,19 @@ class SpecsController < ApplicationController
     end
     
     def filter_params
-      if params && params[:tags] && params[:tags][:tag_type_id] != ""
-        params.require(:tags).require(:tag_type_id)
-        return params[:tags][:tag_type_id]
+      filter_params = {}
+      if params 
+        if params[:tags] && params[:tags][:tag_type_id] != ""
+          params.require(:tags).require(:tag_type_id)
+          filter_params[:tag_type_id] = params[:tags][:tag_type_id]
+        end
+        if params[:projects] && params[:projects][:project_id] != ""
+          params.require(:projects).require(:project_id)
+          filter_params[:project_id] = params[:projects][:project_id]
+        end
       end
-      nil
+      
+      filter_params
     end
     
     def show_spec_types

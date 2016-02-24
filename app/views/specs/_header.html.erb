@@ -53,5 +53,21 @@
                 
             <% end %>
         </div>
+        <div>
+            <%= form_tag '', 
+                        :method => :get,
+                        :class => 'form-inline tag-select' do %>
+                <label for = "@project_id">Filter by project</label>:
+                <%= collection_select(  :projects, 
+                                        :project_id, 
+                                        @projects, 
+                                        :id, 
+                                        :name, 
+                                        {:selected => @selected_project_id},
+                                        {:onchange=> 'submit()',
+                                        class: "form-control"}) %>
+                
+            <% end %>
+        </div>
     </div>
 </nav>
