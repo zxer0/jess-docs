@@ -54,19 +54,30 @@
             <% end %>
         </div>
         <div>
-            <%= form_tag '', 
-                        :method => :get,
-                        :class => 'form-inline tag-select' do %>
-                <label for = "@project_id">Filter by project</label>:
+            
+            <%= form_tag filter_project_specs_path, method: :get, class: "form-inline", remote: true do %>
+                <label for = "@spec_tag_type_id">Filter by project</label>:
                 <%= collection_select(  :projects, 
                                         :project_id, 
                                         @projects, 
                                         :id, 
                                         :name, 
                                         {:selected => @selected_project_id},
-                                        {:onchange=> 'submit()',
-                                        class: "form-control"}) %>
-                
+                                        {class: "form-control",
+                                        id: "project-select"}) %>
+                    <%= button_tag('submit') %>
+            <%end%>
+        </div>
+        
+        <div>
+            <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", remote: true do %>
+                <% @tag_types.each do |tag_type| %>
+                    <label>
+                        <%= tag_type.name %>
+                    <%= check_box_tag tag_type.name, tag_type.name, false, class: "form-control, checkbox-inline" %>
+                    </label>
+                <% end %>
+                <%= button_tag('submit', id: 'project-submit') %>
             <% end %>
         </div>
     </div>

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     collection do
       get 'mass_add_view'
       post 'mass_add'
+      get 'filter_project'
+      get 'filter_tag'
     end
   end
   

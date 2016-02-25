@@ -8,6 +8,7 @@ class Spec < ActiveRecord::Base
     
     validates_presence_of :description
     validates_presence_of :spec_type_id
+    validates_presence_of :project_id
     
     def top?
         self.parent_id.nil?
@@ -80,11 +81,11 @@ class Spec < ActiveRecord::Base
         spec_array
     end
     
-    def self.parse_block(text)
-        self.parse(text.split("\n"))
+    def self.parse_block(text, project_id)
+        self.parse(text.split("\n"), project_id)
     end
     
-    def self.parse(text_array, depth=0, previous=nil, error_count=0)
+    def self.parse(text_array, project_id, depth=0, previous=nil, error_count=0)
         regex = /(\t*|-*)\s*(\bdescribe\b|\bit\b)\s(.*)/
         unless text_array.any?
             return error_count
@@ -96,7 +97,8 @@ class Spec < ActiveRecord::Base
         
         begin
             spec = Spec.create!(:description => spec_description,
-                            :spec_type => SpecType.find_by!(:name=> spec_type))
+                            :spec_type => SpecType.find_by!(:name=> spec_type),
+                            :project_id => project_id)
             if(depth == spec_depth)
                 parent_id = previous.nil? ? nil : previous.parent_id
                 spec.update!(:parent_id => parent_id)
@@ -114,7 +116,7 @@ class Spec < ActiveRecord::Base
         end
         
         text_array.delete(line)
-        self.parse(text_array, spec_depth, spec, error_count)
+        self.parse(text_array, project_id, spec_depth, spec, error_count)
     end
     
 end

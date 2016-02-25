@@ -1,0 +1,8 @@
+<% if @specs.blank? %>
+    $('.full-spec-list').html('<p>There are no specs in the project <strong><%= @project.name %></strong></p>')
+<% else %>
+    $('.full-spec-list').html('<%= j (render partial: 'container', collection: @specs, as: :spec) %>')
+<% end %>
+
+
+

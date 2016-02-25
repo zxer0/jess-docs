@@ -1,6 +1,7 @@
 class SpecsController < ApplicationController
   # before_action :set_spec, only: [:show, :edit, :update, :destroy]
-
+  
+  
   # GET /specs
   # GET /specs.json
   def index
@@ -9,10 +10,8 @@ class SpecsController < ApplicationController
     
     if filter_params.any?
       @selected_project_id = filter_params[:project_id]
-      puts "@selected_project_id = #{@selected_project_id}"
       
       filtered_specs = Spec.filter_by_project(@selected_project_id)
-      puts "filtered_specs = #{filtered_specs}"
       
       @selected_tag_type_id = filter_params[:tag_type_id] 
       @filtered_spec_ids = Spec.filter_by_tag_type(@selected_tag_type_id, filtered_specs).map(&:id)
@@ -24,6 +23,47 @@ class SpecsController < ApplicationController
     puts "filtered_spec_ids = #{@filtered_spec_ids}"
     
     @tag_types = TagType.all
+    
+  end
+  
+  def filter_project
+    @projects = Project.all
+    filtered_specs = Spec.all
+    
+    # if filter_params.any?
+    @selected_project_id = filter_project_params[:project_id] || Projects.first.id #filter_params[:project_id]
+    @project = Project.find(@selected_project_id)
+    
+    filtered_specs = Spec.filter_by_project(@selected_project_id)
+      
+    # end
+    @specs = Spec.get_top_level(filtered_specs)
+    
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
+  end
+  
+  def filter_tag
+    @filtered_spec_ids = Spec.all.map(&:id)
+    @projects = Project.all
+    
+    if filter_params.any?
+      @selected_tag_type_id = filter_params[:tag_type_id] 
+      @filtered_spec_ids = Spec.filter_by_tag_type(@selected_tag_type_id).map(&:id)
+    else
+     
+    end
+    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
+    puts "filtered_spec_ids = #{@filtered_spec_ids}"
+    
+    @tag_types = TagType.all
+    
+    respond_to do |format|
+      format.html
+      format.js { render :layout => false }
+    end
   end
 
   # GET /specs/1
@@ -40,6 +80,8 @@ class SpecsController < ApplicationController
   def new
     @spec = Spec.new
     @spec_types = SpecType.all
+    @projects = Project.all
+    
     if params[:id]
       if params[:add_child]
         @parent = Spec.find(params[:id])
@@ -52,6 +94,7 @@ class SpecsController < ApplicationController
 
   # GET /specs/1/edit
   def edit
+    @projects = Project.all
     @spec = Spec.find(params[:id])
     @spec_types = SpecType.all
   end
@@ -93,12 +136,13 @@ class SpecsController < ApplicationController
   
   #GET /spec/mass_add_view
   def mass_add_view
-    
+    @projects = Project.all
   end
   
   #POST /spec/mass_add
   def mass_add
-    Spec.parse_block(params[:text])
+    @projects = Project.all
+    Spec.parse_block(params[:text], params[:project][:id])
     # redirect_to :action => 'index'
   end
 
@@ -149,16 +193,16 @@ class SpecsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def spec_params
-      params.require(:spec).permit(:description, :spec_type_id, :parent_id)
+      params.require(:spec).permit(:description, :spec_type_id, :parent_id, :project_id)
     end
   
     
     def spec_param
-      params.require(:spec).permit(:description, :spec_type_id)
+      params.require(:spec).permit(:description, :spec_type_id, :project_id)
     end
     
     def mass_add_params
-      params.require(:text)
+      params.require(:text, :projects).permit(:project_id)
     end
     
     def filter_params
@@ -175,6 +219,10 @@ class SpecsController < ApplicationController
       end
       
       filter_params
+    end
+    
+    def filter_project_params
+      params.require(:projects).permit(:project_id)
     end
     
     def show_spec_types
