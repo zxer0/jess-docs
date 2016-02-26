@@ -10,6 +10,8 @@ class Spec < ActiveRecord::Base
     validates_presence_of :spec_type_id
     validates_presence_of :project_id
     
+    scope :for_project, ->(project_id) { where(:project_id => project_id) }
+    
     def top?
         self.parent_id.nil?
     end
@@ -56,7 +58,7 @@ class Spec < ActiveRecord::Base
             specs_to_print.concat tagged_spec.heritage
             specs_to_print.concat tagged_spec.children
         end
-        specs_to_print
+        specs_to_print.uniq
     end
     
     def self.filter_by_project(project_id=nil)
@@ -82,7 +84,50 @@ class Spec < ActiveRecord::Base
     end
     
     def self.parse_block(text, project_id)
-        self.parse(text.split("\n"), project_id)
+        self.parse_alternate(text.split("\n"), project_id)
+    end
+    
+    def self.parse_alternate(text_array, project_id, depth=0, previous=nil, error_count=0)
+        regex = /(\t*|-*)\s?(\w+)\s?(.*)/
+        unless text_array.any?
+            return error_count
+        end
+        
+        line = text_array.first
+        tabs, spec_type_indicator, spec_description_rest = line.scan(regex).first
+        spec_depth = tabs.nil? ? 0 : tabs.length
+        
+        spec_description = "#{spec_type_indicator} #{spec_description_rest}"
+        
+        puts "spec type indicator = #{spec_type_indicator}"
+        if spec_type_indicator == "should"
+            spec_type = SpecType.it
+        else
+            spec_type = SpecType.describe
+        end
+        
+        begin
+            spec = Spec.create!(:description => spec_description,
+                            :spec_type => spec_type,
+                            :project_id => project_id)
+            if(depth == spec_depth)
+                parent_id = previous.nil? ? nil : previous.parent_id
+                spec.update!(:parent_id => parent_id)
+            elsif (spec_depth > depth) #deeper in, set the parent
+                spec.update!(:parent_id => previous.id)
+            else #spec_depth < depth. farther out... no idea
+                (1+depth-spec_depth).times do #this is how far back we need to go
+                    previous = previous.parent
+                end
+                parent_id = previous.nil? ? nil : previous.id
+                spec.update!(:parent_id => parent_id)
+            end
+        rescue => error
+            puts error.inspect
+        end
+        
+        text_array.delete(line)
+        self.parse_alternate(text_array, project_id, spec_depth, spec, error_count)
     end
     
     def self.parse(text_array, project_id, depth=0, previous=nil, error_count=0)

@@ -20,16 +20,16 @@
         <div class="form-group">
           
           <div id="helpBlock" class="help-block">
-            Enter multiple specs at a time. Each line denotes a new spec. Specs 
-            must start with a valid spec type (e.g., 'it' or 'describe'). Nest specs 
-            either by using tabs or -'s</div>
+            Enter multiple specs at a time. Each line denotes a new spec. Nest specs 
+            either by using tabs or -'s. Specs that start with 'should' are assumed
+            to be it blocks and all others are assumed to be describe blocks</div>
             <div class="panel panel-default">
               <div class="panel-heading">example</div>
               <div class="panel-body">
-                describe someone really cool<br />
-                - it is jess <br />
-                -- describe this one will be level 3 <br />
-                this one won't save at all
+                someone really cool<br />
+                - should be jess <br />
+                -- level 3 <br />
+                back to level 1
               </div>
             </div>
           

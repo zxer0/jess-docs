@@ -7,6 +7,7 @@ class SpecsController < ApplicationController
   def index
     @filtered_spec_ids = Spec.all.map(&:id)
     @projects = Project.all
+    @selected_project_id = Project.first.id
     
     if filter_params.any?
       @selected_project_id = filter_params[:project_id]
@@ -46,19 +47,25 @@ class SpecsController < ApplicationController
   end
   
   def filter_tag
-    @filtered_spec_ids = Spec.all.map(&:id)
+    
+    @project = Project.find(params[:project_id])
+    @project_specs = Spec.for_project(@project.id)
+    @filtered_spec_ids = @project_specs.map(&:id)
     @projects = Project.all
     
-    if filter_params.any?
-      @selected_tag_type_id = filter_params[:tag_type_id] 
-      @filtered_spec_ids = Spec.filter_by_tag_type(@selected_tag_type_id).map(&:id)
-    else
-     
+    @filtered_spec_ids_array = []
+    
+    params[:tag_type][:id].each do |tag_type_id|
+      @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
     end
-    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
-    puts "filtered_spec_ids = #{@filtered_spec_ids}"
+
+    @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
     
     @tag_types = TagType.all
+    
+    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
+    
+    
     
     respond_to do |format|
       format.html
@@ -103,6 +110,8 @@ class SpecsController < ApplicationController
   # POST /specs.json
   def create
     @spec = Spec.new(spec_params)
+    @projects = Project.all
+    
     if params[:spec][:child_id]
       @child = Spec.find(params[:spec][:child_id])
     end
@@ -223,6 +232,11 @@ class SpecsController < ApplicationController
     
     def filter_project_params
       params.require(:projects).permit(:project_id)
+    end
+    
+    def filter_tag_params
+      
+      params.require(:project_id)
     end
     
     def show_spec_types

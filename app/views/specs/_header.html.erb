@@ -1,4 +1,5 @@
 <%= javascript_include_tag "editable" %></script>
+<%= javascript_include_tag "filtertag" %></script>
 
 <nav class="navbar navbar-default">
     <div class="navbar-header">
@@ -61,23 +62,18 @@
                                         :project_id, 
                                         @projects, 
                                         :id, 
-                                        :name, 
+                                        :name,
                                         {:selected => @selected_project_id},
                                         {class: "form-control",
                                         id: "project-select"}) %>
-                    <%= button_tag('submit') %>
+                    <%= button_tag('submit', class: "btn btn-primary") %>
             <%end%>
         </div>
         
         <div>
-            <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", remote: true do %>
-                <% @tag_types.each do |tag_type| %>
-                    <label>
-                        <%= tag_type.name %>
-                    <%= check_box_tag tag_type.name, tag_type.name, false, class: "form-control, checkbox-inline" %>
-                    </label>
-                <% end %>
-                <%= button_tag('submit', id: 'project-submit') %>
+            <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", id: 'tag-form', remote: true do %>
+                <%= collection_check_boxes(:tag_type, :id, @tag_types, :id, :name) %>
+                <%= button_tag('submit', id: 'project-submit', onclick: 'addProject()') %>
             <% end %>
         </div>
     </div>
