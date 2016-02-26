@@ -55,11 +55,16 @@ class SpecsController < ApplicationController
     
     @filtered_spec_ids_array = []
     
-    params[:tag_type][:id].each do |tag_type_id|
-      @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
+    if params[:tag_types]
+      params[:tag_types].each do |tag_type_id|
+        @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
+      end
+      
+      @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
+      
     end
-
-    @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
+  
+    
     
     @tag_types = TagType.all
     

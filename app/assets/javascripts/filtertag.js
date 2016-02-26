@@ -7,5 +7,5 @@ function addProject() {
     else {
         hidden_field.replaceWith('<input type="hidden" id="hidden_project_id" name="project_id" value="' + project_id +'" /> ')
     }
-    
+    $('#tag-form').submit();
 }
