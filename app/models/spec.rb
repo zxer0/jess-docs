@@ -16,8 +16,17 @@ class Spec < ActiveRecord::Base
     scope :with_tag_type, ->(type_id) { joins(:tags).where(tags: {tag_type_id: type_id})  }
     scope :for_project, ->(project_id) { where(:project_id => project_id) }
     
-    def full_ancestry
-        self.path.union(self.descendants)
+    def full_ancestry_ids
+        (self.path.to_a + self.descendants.to_a).map(&:id)
+    end
+    
+    def self.all_ancestry_ids(specs)
+        ids = []
+        specs.map do |spec|
+            ids.concat spec.full_ancestry_ids
+        end
+        
+        ids.uniq
     end
     
     def bottom?
