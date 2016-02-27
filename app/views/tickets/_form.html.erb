@@ -1,0 +1,33 @@
+<div class="modal-dialog modal-sm">
+
+  <div class="modal-content">
+    
+    <%= form_for @ticket, remote: true do |f| %>
+      <div class="modal-body">
+        
+        <% if @ticket.errors.any? %>
+          <div class="alert alert-danger form-group" role="alert">
+            <ul>
+            <% @ticket.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group form-inline">
+          
+          <%= f.text_field 'name', {class: "form-control", placeholder: '#000000000'}%>
+          <%= f.hidden_field :spec_id, value: @spec.id %>
+        </div>
+        
+      </div>
+      
+      <div class="modal-footer">
+        <%= link_to "cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+        <%= f.submit "associate ticket", class: "btn btn-primary" %>
+        
+      </div>
+    <% end %>
+  </div>
+</div>
