@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160227143934) do
+ActiveRecord::Schema.define(version: 20160227181945) do
 
   create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20160227143934) do
   end
 
   add_index "specs", ["ancestry"], name: "index_specs_on_ancestry"
+  add_index "specs", ["project_id"], name: "project_id_ix"
 
   create_table "tag_types", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -50,5 +51,7 @@ ActiveRecord::Schema.define(version: 20160227143934) do
     t.integer  "spec_id"
     t.integer  "tag_type_id"
   end
+
+  add_index "tags", ["spec_id"], name: "spec_id_ix"
 
 end
