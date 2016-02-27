@@ -5,6 +5,5 @@ $("ul.errors").html("");
   <% end %>
 <% else %>
   $("#spec-modal").modal("hide");
-  $(".full-spec-list").html("<%= j(render partial: "container", collection: Spec.get_top_level, as: :spec) %>");
-  document.getElementById("<%=@spec.id%>").scrollIntoView();
+  $('#<%=@spec.id %> .spec-data').html("<%= j(render partial: "data", object: @spec, as: :spec ) %>");
 <% end %>

@@ -3,7 +3,9 @@
 </span>
 
 <%= spec.description %>
-
+<span class="tickets">
+    <%= render partial: "tickets/show", collection: spec.tickets, as: :ticket %>
+</span>
 <span class="tags">
     <%= render partial: "tags/show", collection: spec.tags, as: :tag %>
 </span>

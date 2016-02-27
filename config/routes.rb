@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :tickets
   resources :projects
   resources :tag_types
   resources :tags

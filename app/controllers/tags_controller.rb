@@ -15,7 +15,7 @@ class TagsController < ApplicationController
   # GET /tags/new
   def new
     @tag = Tag.new
-    @tag_types = TagType.order("LOWER(name)")
+    @tag_types = TagType.all
     @spec = Spec.find(params[:id])
   end
 

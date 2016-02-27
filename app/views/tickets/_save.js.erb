@@ -1,0 +1,11 @@
+$("ul.errors").html("")
+<% if @ticket.errors.any? %>
+  <% @ticket.errors.full_messages.each do |message| %>
+    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
+  <% end %>
+<% else %>
+  var ticketElem = $("#<%=@ticket.spec.id%> span.tickets");
+  $("#spec-modal").modal("hide");
+  ticketElem.html("<%= j(render partial: "tickets/show", collection: @ticket.spec.tickets, as: :ticket) %>");
+  $('#<%=@ticket.spec.id%> .<%=@ticket.id%> .delete_tag').removeClass('hidden');
+<% end %>
