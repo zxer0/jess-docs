@@ -24,6 +24,8 @@ Visit http://docs.c9.io for support, or to learn more about using Cloud9 IDE.
 To watch some training videos, visit http://www.youtube.com/user/c9ide
 
 stuff i want to do:
+- add new top level spec and add child need to re render stuff
+- confirmation on delete - "you sure? this will delete the following specs..."
 - expand/contract specs
 - soft delete instead of hard delete?
 - checkboxes to edit multiple?
@@ -38,6 +40,7 @@ stuff i want to do:
 - mass add something not right in unindenting *sigh*
 - mass adding children
 - mass edit
+- add 'ticketed' as a thing to filter by
 - text editor? https://mindmup.github.io/bootstrap-wysiwyg/
 
 done
@@ -48,3 +51,4 @@ done
         of child becomes 1?
 - filtering by label doesn't go deep enough*
 - editing does not need to refresh the whole page
+- i don't think we can add parents... that's maybe bad. ya we can

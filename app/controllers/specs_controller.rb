@@ -77,17 +77,21 @@ class SpecsController < ApplicationController
 
   # GET /specs/new
   def new
-    @spec = Spec.new
+    
     @spec_types = SpecType.all
     @projects = Project.all
     
     if params[:id]
       if params[:add_child]
         @parent = Spec.find(params[:id])
+        @spec = @parent.children.new
       else
+        @spec = Spec.new
         @spec_types = SpecType.where.not(:name => 'it')
         @child = Spec.find(params[:id])
       end
+    else
+      @spec = Spec.new
     end
   end
 
@@ -111,6 +115,7 @@ class SpecsController < ApplicationController
     if @spec.save
       if params[:spec][:child_id]
         @spec.update!(:parent => @child.parent)
+        @child.update!(:parent => @spec)
       end
       
       # redirect_to :action => 'index'
