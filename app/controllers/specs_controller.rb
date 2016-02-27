@@ -9,19 +9,8 @@ class SpecsController < ApplicationController
     @projects = Project.all
     @selected_project_id = Project.first.id
     
-    if filter_params.any?
-      @selected_project_id = filter_params[:project_id]
-      
-      filtered_specs = Spec.filter_by_project(@selected_project_id)
-      
-      @selected_tag_type_id = filter_params[:tag_type_id] 
-      @filtered_spec_ids = Spec.filter_by_tag_type(@selected_tag_type_id, filtered_specs).map(&:id)
-      
-    else
-     
-    end
-    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
-    puts "filtered_spec_ids = #{@filtered_spec_ids}"
+  
+    @specs = Spec.roots.for_project(@selected_project_id)
     
     @tag_types = TagType.all
     
@@ -29,16 +18,16 @@ class SpecsController < ApplicationController
   
   def filter_project
     @projects = Project.all
-    filtered_specs = Spec.all
+    # filtered_specs = Spec.all
     
     # if filter_params.any?
-    @selected_project_id = filter_project_params[:project_id] || Projects.first.id #filter_params[:project_id]
+    @selected_project_id = filter_project_params[:project_id] || Projects.first.id
     @project = Project.find(@selected_project_id)
     
-    filtered_specs = Spec.filter_by_project(@selected_project_id)
+    # filtered_specs = Spec.filter_by_project(@selected_project_id)
       
     # end
-    @specs = Spec.get_top_level(filtered_specs)
+    @specs = Spec.roots.for_project(@selected_project_id) #Spec.get_top_level(filtered_specs)
     
     respond_to do |format|
       format.html
@@ -123,8 +112,7 @@ class SpecsController < ApplicationController
     
     if @spec.save
       if params[:spec][:child_id]
-        @spec.update!(:parent_id => @child.parent_id)
-        @spec.children << @child
+        @spec.update!(:parent => @child.parent)
       end
       
       # redirect_to :action => 'index'
@@ -176,10 +164,10 @@ class SpecsController < ApplicationController
     deleted_id = params[:id]
     child_ids = @spec.children.map(&:id)
     
-    #won't somebody please think of the children
-    @spec.children.each do |child|
-      child.update!(:parent_id => new_parent_id)
-    end
+    # #won't somebody please think of the children
+    # @spec.children.each do |child|
+    #   child.update!(:parent_id => new_parent_id)
+    # end
     
     @spec.destroy
     

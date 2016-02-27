@@ -27,7 +27,7 @@ stuff i want to do:
 - expand/contract specs
 - soft delete instead of hard delete?
 - checkboxes to edit multiple?
-- adding a parent at top level makes spec go all the way to the bottom. i mean i guess that makes sense
+- adding a parent at top level makes spec go all the way to the bottom. i mean i guess that makes sense*
     -  implement 'order' - by default it's id but adding parent the order of new parent is order of child and order
         of child becomes 1? 
 - make stuff endpoints
@@ -39,7 +39,10 @@ stuff i want to do:
 - header needs to refresh after adding tags
 - add ticket (as type of tag?) ticket vs label
 - mass add something not right in unindenting *sigh*
-- maybe wanna decrease padding or margin or whatever so specs are closer together
 - mass adding children
-- filtering by label doesn't go deep enough
+- filtering by label doesn't go deep enough*
 - text editor? https://mindmup.github.io/bootstrap-wysiwyg/
+- ancestry gem*
+
+done
+- maybe wanna decrease padding or margin or whatever so specs are closer together
