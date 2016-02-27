@@ -1,5 +1,7 @@
 <% if @specs.blank? %>
     $('.full-spec-list').html('<p>There are no specs in the project <strong><%= @project.name %></strong></p>')
+<% elsif @filtered_spec_ids && @filtered_spec_ids.none? %>
+    $('.full-spec-list').replaceWith('<p>There are no specs in the project <strong><%= @project.name %></strong> with tags <%= j (render partial: 'tag_types/listhorizontal', collection: @tag_type_ids, as: :tag_type_id ) %></p>')
 <% else %>
     $('.full-spec-list').html('<%= j (render partial: 'container', collection: @specs, as: :spec) %>')
 <% end %>

@@ -58,9 +58,9 @@
             <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", id: 'tag-form', remote: true do %>
                 
                 <% @tag_types.each do |tag_type| %>
-                    <label class="label label-default tag" style="background-color: <%= tag_type.color %>">
-                    <%= tag_type.name %>
-                    <%= check_box_tag 'tag_types[]', tag_type.id, false, {onclick: 'addProject()', class:"checkbox"} %>
+                    <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
+                        <%= tag_type.name %>
+                        <%= check_box_tag 'tag_types[]', tag_type.id, false, {onclick: 'addProject()', class:"checkbox"} %>
                     </label>
                 <% end %>
                 

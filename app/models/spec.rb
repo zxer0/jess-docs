@@ -1,44 +1,61 @@
 class Spec < ActiveRecord::Base
-    has_many :children, class_name: "Spec", foreign_key: "parent_id"
-    belongs_to :parent, class_name: "Spec"
+    # The orphan subtree is added to the parent of the deleted node.
+    # If the deleted node is Root, then rootify the orphan subtree.
+    has_ancestry :orphan_strategy => :adopt
     
     belongs_to :spec_type
     belongs_to :project
     has_many :tags, dependent: :destroy
     
+    alias_attribute :name, :description
+    
     validates_presence_of :description
     validates_presence_of :spec_type_id
     validates_presence_of :project_id
     
+    scope :with_tag_type, ->(type_id) { joins(:tags).where(tags: {tag_type_id: type_id})  }
     scope :for_project, ->(project_id) { where(:project_id => project_id) }
     
-    def top?
-        self.parent_id.nil?
+    def full_ancestry_ids
+        (self.path.to_a + self.descendants.to_a).map(&:id)
+    end
+    
+    def self.all_ancestry_ids(specs)
+        ids = []
+        specs.map do |spec|
+            ids.concat spec.full_ancestry_ids
+        end
+        
+        ids.uniq
     end
     
     def bottom?
         spec_type === SpecType.it
     end
     
-    def oldest_parent
-        if self.parent.nil?
-            return self
-        end
-        
-        self.parent.oldest_parent
-    end
+    # def top?
+    #     self.parent_id.nil?
+    # end
     
-    def only_child?
-       self.oldest_parent.id == self.id && !self.children.any?
-    end
-    
-    def self.get_top_level(specs_array=nil)
-        if(specs_array.nil?)
-            return Spec.where(:parent_id => nil)
-        end
+    # def oldest_parent
+    #     if self.parent.nil?
+    #         return self
+    #     end
         
-        specs_array.select{ |spec| spec.parent_id == nil}
-    end
+    #     self.parent.oldest_parent
+    # end
+    
+    # def only_child?
+    #   self.oldest_parent.id == self.id && !self.children.any?
+    # end
+    
+    # def self.get_top_level(specs_array=nil)
+    #     if(specs_array.nil?)
+    #         return Spec.where(:parent_id => nil)
+    #     end
+        
+    #     specs_array.select{ |spec| spec.parent_id == nil}
+    # end
     
     def self.filter_by_tag_type(tag_type_id=nil, spec_list=nil)
         spec_list = spec_list || Spec.all
@@ -61,27 +78,27 @@ class Spec < ActiveRecord::Base
         specs_to_print.uniq
     end
     
-    def self.filter_by_project(project_id=nil)
-        if project_id.nil?
-            return Spec.all
-        end
+    # def self.filter_by_project(project_id=nil)
+    #     if project_id.nil?
+    #         return Spec.all
+    #     end
         
-        Spec.where(:project_id => project_id)
-    end
+    #     Spec.where(:project_id => project_id)
+    # end
     
-    def heritage(spec_array=nil)
-        if spec_array.nil?
-            spec_array = []
-        end
+    # def heritage(spec_array=nil)
+    #     if spec_array.nil?
+    #         spec_array = []
+    #     end
         
-        spec_array << self
+    #     spec_array << self
         
-        if(!self.top?)
-            Spec.find(self.parent_id).heritage(spec_array)
-        end
+    #     if(!self.top?)
+    #         Spec.find(self.parent_id).heritage(spec_array)
+    #     end
         
-        spec_array
-    end
+    #     spec_array
+    # end
     
     def self.parse_block(text, project_id)
         self.parse_alternate(text.split("\n"), project_id)

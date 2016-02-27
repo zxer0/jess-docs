@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160223192034) do
+ActiveRecord::Schema.define(version: 20160227143934) do
 
   create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -31,9 +31,11 @@ ActiveRecord::Schema.define(version: 20160223192034) do
   create_table "specs", force: :cascade do |t|
     t.string  "description",  null: false
     t.integer "spec_type_id"
-    t.integer "parent_id"
     t.integer "project_id"
+    t.string  "ancestry"
   end
+
+  add_index "specs", ["ancestry"], name: "index_specs_on_ancestry"
 
   create_table "tag_types", force: :cascade do |t|
     t.datetime "created_at", null: false

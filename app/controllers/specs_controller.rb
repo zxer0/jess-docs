@@ -9,19 +9,8 @@ class SpecsController < ApplicationController
     @projects = Project.all
     @selected_project_id = Project.first.id
     
-    if filter_params.any?
-      @selected_project_id = filter_params[:project_id]
-      
-      filtered_specs = Spec.filter_by_project(@selected_project_id)
-      
-      @selected_tag_type_id = filter_params[:tag_type_id] 
-      @filtered_spec_ids = Spec.filter_by_tag_type(@selected_tag_type_id, filtered_specs).map(&:id)
-      
-    else
-     
-    end
-    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
-    puts "filtered_spec_ids = #{@filtered_spec_ids}"
+  
+    @specs = Spec.roots.for_project(@selected_project_id)
     
     @tag_types = TagType.all
     
@@ -29,16 +18,16 @@ class SpecsController < ApplicationController
   
   def filter_project
     @projects = Project.all
-    filtered_specs = Spec.all
+    # filtered_specs = Spec.all
     
     # if filter_params.any?
-    @selected_project_id = filter_project_params[:project_id] || Projects.first.id #filter_params[:project_id]
+    @selected_project_id = filter_project_params[:project_id] || Projects.first.id
     @project = Project.find(@selected_project_id)
     
-    filtered_specs = Spec.filter_by_project(@selected_project_id)
+    # filtered_specs = Spec.filter_by_project(@selected_project_id)
       
     # end
-    @specs = Spec.get_top_level(filtered_specs)
+    @specs = Spec.roots.for_project(@selected_project_id) #Spec.get_top_level(filtered_specs)
     
     respond_to do |format|
       format.html
@@ -47,29 +36,27 @@ class SpecsController < ApplicationController
   end
   
   def filter_tag
-    
-    @project = Project.find(params[:project_id])
-    @project_specs = Spec.for_project(@project.id)
-    @filtered_spec_ids = @project_specs.map(&:id)
+    project_id = params[:project_id]
+    @tag_types = TagType.all
+    @project = Project.find(project_id)
+    @specs = Spec.for_project(project_id).roots
+    # @project_specs = Spec.for_project(@project.id)
+    # @filtered_spec_ids = @project_specs.map(&:id)
     @projects = Project.all
     
     @filtered_spec_ids_array = []
     
-    if params[:tag_types]
-      params[:tag_types].each do |tag_type_id|
-        @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
+    @tag_type_ids = params[:tag_types]
+    
+    if @tag_type_ids
+      @tag_type_ids.each do |tag_type_id|
+        # @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
+        @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).with_tag_type(tag_type_id))
       end
       
-      @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
+      @filtered_spec_ids = @filtered_spec_ids_array.inject(:&).uniq
       
     end
-  
-    
-    
-    @tag_types = TagType.all
-    
-    @specs = Spec.get_top_level(Spec.find(@filtered_spec_ids))
-    
     
     
     respond_to do |format|
@@ -123,8 +110,7 @@ class SpecsController < ApplicationController
     
     if @spec.save
       if params[:spec][:child_id]
-        @spec.update!(:parent_id => @child.parent_id)
-        @spec.children << @child
+        @spec.update!(:parent => @child.parent)
       end
       
       # redirect_to :action => 'index'
@@ -176,10 +162,10 @@ class SpecsController < ApplicationController
     deleted_id = params[:id]
     child_ids = @spec.children.map(&:id)
     
-    #won't somebody please think of the children
-    @spec.children.each do |child|
-      child.update!(:parent_id => new_parent_id)
-    end
+    # #won't somebody please think of the children
+    # @spec.children.each do |child|
+    #   child.update!(:parent_id => new_parent_id)
+    # end
     
     @spec.destroy
     

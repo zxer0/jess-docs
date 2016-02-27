@@ -5,18 +5,7 @@
 </div>
 
 <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
-<p>There are no specs 
-
-    <% if @selected_tag_type_id && @selected_tag_type_id != "" %>
-    with the tag
-
-        <span class="tag label label-default" style="background-color: <%=TagType.find(@selected_tag_type_id).color %>">
-            <%= TagType.find(@selected_tag_type_id).name %> 
-        </span>
-    
-    <% end %>
-
- currently in the system</p>
+<p>There are no specs currently in the system</p>
 <% else %>
 
 <div class="full-spec-list">
