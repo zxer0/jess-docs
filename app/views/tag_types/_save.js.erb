@@ -1,3 +1,4 @@
 <% unless @tag_type.errors.any? %>
     $("#spec-modal").modal("hide");
+    $(".filterspecs").html("<%= j(render partial: "tag_types/filter", object: @tag_types, as: :tag_types) %>");
 <% end %>

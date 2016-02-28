@@ -1,7 +1,7 @@
 class Spec < ActiveRecord::Base
     # The orphan subtree is added to the parent of the deleted node.
     # If the deleted node is Root, then rootify the orphan subtree.
-    has_ancestry
+    has_ancestry :orphan_strategy => :adopt
     
     belongs_to :spec_type
     belongs_to :project
@@ -40,7 +40,8 @@ class Spec < ActiveRecord::Base
     end
     
     def self.parse_alternate(text_array, project_id, depth=0, previous=nil, error_count=0)
-        regex = /(\t*|-*)\s?(\w+)\s?(.*)/
+        #regex = /(\t*|-*)\s?(\w+)\s?(.*)/
+        regex = /(\t*|-*|\s{2}*)(\w+)\s?(.*)/
         unless text_array.any?
             return error_count
         end
@@ -51,7 +52,6 @@ class Spec < ActiveRecord::Base
         
         spec_description = "#{spec_type_indicator} #{spec_description_rest}"
         
-        puts "spec type indicator = #{spec_type_indicator}"
         if spec_type_indicator == "should"
             spec_type = SpecType.it
         else
@@ -60,19 +60,18 @@ class Spec < ActiveRecord::Base
         
         begin
             spec = Spec.create!(:description => spec_description,
-                            :spec_type => spec_type,
-                            :project_id => project_id)
+                                :spec_type => spec_type,
+                                :project_id => project_id)
             if(depth == spec_depth)
-                parent_id = previous.nil? ? nil : previous.parent_id
-                spec.update!(:parent_id => parent_id)
+                parent = previous.nil? ? nil : previous.parent
+                spec.update!(:parent => parent)
             elsif (spec_depth > depth) #deeper in, set the parent
-                spec.update!(:parent_id => previous.id)
+                spec.update!(:parent => previous)
             else #spec_depth < depth. farther out... no idea
                 (1+depth-spec_depth).times do #this is how far back we need to go
                     previous = previous.parent
                 end
-                parent_id = previous.nil? ? nil : previous.id
-                spec.update!(:parent_id => parent_id)
+                spec.update!(:parent => previous)
             end
         rescue => error
             puts error.inspect

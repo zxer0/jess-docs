@@ -5,5 +5,23 @@ $("ul.errors").html("");
   <% end %>
 <% else %>
   $("#spec-modal").modal("hide");
-  $('#<%=@spec.id %> .spec-data').html("<%= j(render partial: "data", object: @spec, as: :spec ) %>");
+  
+  var specSpan = $('#<%=@spec.id%>');
+  
+  if(specSpan.length){
+    $('#<%=@spec.id %>').replaceWith("<%= j(render partial: "spec", object: @spec ) %>");
+    $('#<%=@spec.id%> .delete_tag').removeClass('hidden');
+    $('#<%=@spec.id%> .spec-buttons').addClass('in');
+  }
+  else {
+    <% if @spec.parent %>
+      $('.spec-list .<%=@spec.parent.id %>').replaceWith("<%= j(render partial: "specs", object: @spec.parent, as: :spec) %>");
+      $('.spec-list .<%=@spec.parent.id %> .delete_tag').removeClass('hidden');
+      $('.spec-list .<%=@spec.parent.id %> .spec-buttons').addClass('in');
+    <% else %>
+      $('.full-spec-list').append("<%= j(render partial: "container", object: @spec, as: :spec) %>");
+    <% end %>
+  }
+  
+
 <% end %>

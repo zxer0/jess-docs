@@ -25,6 +25,7 @@ class TagTypesController < ApplicationController
   # POST /tag_types.json
   def create
     @tag_type = TagType.new(tag_type_params)
+    @tag_types = TagType.all
     if @tag_type.save
       # redirect_to '/specs'
     else
@@ -45,7 +46,7 @@ class TagTypesController < ApplicationController
   # PATCH/PUT /tag_types/1.json
   def update
     
-    
+    @tag_types = TagType.all
     if @tag_type.update(tag_type_params)
       # redirect_to '/specs'
     else

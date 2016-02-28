@@ -148,6 +148,7 @@ class SpecsController < ApplicationController
   def mass_add
     @projects = Project.all
     Spec.parse_block(params[:text], params[:project][:id])
+    @specs = Spec.for_project(params[:project][:id]).roots
     # redirect_to :action => 'index'
   end
 
