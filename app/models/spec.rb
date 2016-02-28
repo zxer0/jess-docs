@@ -1,7 +1,7 @@
 class Spec < ActiveRecord::Base
     # The orphan subtree is added to the parent of the deleted node.
     # If the deleted node is Root, then rootify the orphan subtree.
-    has_ancestry :orphan_strategy => :adopt
+    has_ancestry
     
     belongs_to :spec_type
     belongs_to :project
@@ -41,18 +41,24 @@ class Spec < ActiveRecord::Base
     
     def self.parse_alternate(text_array, project_id, depth=0, previous=nil, error_count=0)
         #regex = /(\t*|-*)\s?(\w+)\s?(.*)/
-        regex = /(\t*|-*|\s{2}*)(\w+)\s?(.*)/
+        #instead of looking for s{2}* we should replace s{2}* with \t
+        # not sure if this needs to be just the leading whitespace only?
+        regex = /(-*)\s?(\w+)\s?(.*)/
         unless text_array.any?
             return error_count
         end
         
         line = text_array.first
+        #this is where we turn spaces into -s
+        line.gsub!(/[ ]{2}/, '-')
+        line.gsub!(/\t/, '-')
+        
         tabs, spec_type_indicator, spec_description_rest = line.scan(regex).first
         spec_depth = tabs.nil? ? 0 : tabs.length
         
         spec_description = "#{spec_type_indicator} #{spec_description_rest}"
         
-        if spec_type_indicator == "should"
+        if (spec_type_indicator == "should" || spec_type_indicator == "for")
             spec_type = SpecType.it
         else
             spec_type = SpecType.describe
@@ -62,16 +68,24 @@ class Spec < ActiveRecord::Base
             spec = Spec.create!(:description => spec_description,
                                 :spec_type => spec_type,
                                 :project_id => project_id)
-            if(depth == spec_depth)
-                parent = previous.nil? ? nil : previous.parent
-                spec.update!(:parent => parent)
-            elsif (spec_depth > depth) #deeper in, set the parent
-                spec.update!(:parent => previous)
-            else #spec_depth < depth. farther out... no idea
-                (1+depth-spec_depth).times do #this is how far back we need to go
-                    previous = previous.parent
+            puts "spec = #{spec.description}"
+            puts "depth = #{depth}, spec_depth = #{spec_depth}"
+            
+            unless(spec_depth == 0)
+                if(depth == spec_depth)
+                    parent = previous.nil? ? nil : previous.parent
+                    spec.update!(:parent => parent)
+                elsif (spec_depth > depth) #deeper in, set the parent
+                    spec.update!(:parent => previous)
+                else #spec_depth < depth. farther out... no idea
+                    
+                    (depth-spec_depth).times do #this is how far back we need to go
+                        puts "previous = "
+                        puts "#{previous.description}"
+                        previous = previous.parent
+                    end
+                    spec.update!(:parent => previous.parent)
                 end
-                spec.update!(:parent => previous)
             end
         rescue => error
             puts error.inspect

@@ -24,7 +24,7 @@ Visit http://docs.c9.io for support, or to learn more about using Cloud9 IDE.
 To watch some training videos, visit http://www.youtube.com/user/c9ide
 
 stuff i want to do:
-- add new top level spec and add child and add parent need to re render stuff
+- add new top level spec and add child and add parent need to re render stuff.. correctly
 - confirmation on delete - "you sure? this will delete the following specs..."
 - expand/contract specs
 - soft delete instead of hard delete?
@@ -34,14 +34,18 @@ stuff i want to do:
 - mass apply tags?
 - archive tags
 - validation on mass add
-- header needs to refresh after adding tags
-- add ticket (as type of tag?) ticket vs label
-- mass add something not right in unindenting *sigh*
 - mass adding children
 - mass edit
 - add 'ticketed' as a thing to filter by
 - text editor? https://mindmup.github.io/bootstrap-wysiwyg/
-- add double spaces and 4 spaces to mass add?
+- users
+-   user settings...
+-       show/hide describe/it
+- progress bar for mass add
+- count of items esp. when filtering
+-   e.g., 'viewing x of y specs in project z'
+- badges for filtering? like number of specs
+
 
 done
 - maybe wanna decrease padding or margin or whatever so specs are closer together
@@ -53,3 +57,7 @@ done
 - editing does not need to refresh the whole page
 - i don't think we can add parents... that's maybe bad. ya we can
 - fix stuff being editable when editing tags or specs
+- add double spaces and 4 spaces to mass add?
+- header needs to refresh after adding tags
+- add ticket (as type of tag?) ticket vs label
+- mass add something not right in unindenting *sigh*
