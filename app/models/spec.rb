@@ -22,6 +22,19 @@ class Spec < ActiveRecord::Base
         (self.path.to_a + self.descendants.to_a).map(&:id)
     end
     
+    def bottom?
+        spec_type === SpecType.it
+    end
+    
+    def closest_older_sibling_id
+        sibling_ids = self.sibling_ids
+        self_index = sibling_ids.index(self.id)
+        if self_index-1 < 0
+            return nil
+        end
+        sibling_ids[self_index-1]
+    end
+    
     def self.all_ancestry_ids(specs)
         ids = []
         specs.map do |spec|
@@ -29,10 +42,6 @@ class Spec < ActiveRecord::Base
         end
         
         ids.uniq
-    end
-    
-    def bottom?
-        spec_type === SpecType.it
     end
 
     def self.parse_block(text, project_id)

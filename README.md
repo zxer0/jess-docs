@@ -45,6 +45,7 @@ stuff i want to do:
 - count of items esp. when filtering
 -   e.g., 'viewing x of y specs in project z'
 - badges for filtering? like number of specs
+- indent/dedent?
 
 
 done

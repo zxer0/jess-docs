@@ -139,17 +139,29 @@ class SpecsController < ApplicationController
     end
   end
   
-  #GET /spec/mass_add_view
+  #GET /specs/mass_add_view
   def mass_add_view
     @projects = Project.all
   end
   
-  #POST /spec/mass_add
+  #POST /specs/mass_add
   def mass_add
     @projects = Project.all
     Spec.parse_block(params[:text], params[:project][:id])
     @specs = Spec.for_project(params[:project][:id]).roots
     # redirect_to :action => 'index'
+  end
+
+  #POST /specs/:spec_id/indent
+  def indent
+    @spec = Spec.find(params[:spec_id])
+    @closest_older_sibling_id = @spec.closest_older_sibling_id
+    
+    if @spec.update(:parent => Spec.find(@closest_older_sibling_id))
+      # redirect_to :action => 'index', :id => @spec
+    else
+      
+    end
   end
 
   # DELETE /specs/1

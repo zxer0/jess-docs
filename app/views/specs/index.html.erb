@@ -9,7 +9,7 @@
     <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
         <p>There are no specs currently in the system</p>
     <% else %>
-        <%= render partial: "container", collection: @specs, as: :spec %>
+        <%= render partial: "specs", collection: @specs, as: :spec %>
     <% end %>
 </div>
 

@@ -27,6 +27,13 @@
         
     </span>
     <span class="btn-group btn-group-xs" role="group">
+        
+        <%= link_to '', 
+                    spec_indent_url(  :spec_id =>spec.id),
+                    method: :post,
+                    remote:true,
+                    class: "indent_spec btn btn-default glyphicon glyphicon-indent-left" %>
+        
         <%= link_to '', 
                     edit_spec_path(spec), 
                     remote:true, 

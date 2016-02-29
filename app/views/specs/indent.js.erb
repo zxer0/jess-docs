@@ -1,0 +1,6 @@
+$('.indent_spec').bind('ajax:success', function() {
+    $('.s<%=@spec.id%>').remove();
+    $('.s<%=@spec.root.id%>').replaceWith("<%= j(render partial: "specs", object: @spec.root, as: :spec) %>");
+    $('.s<%=@spec.root.id%> .delete_tag').removeClass('hidden');
+    $('.s<%=@spec.root.id%> .spec-buttons').addClass('in');
+});

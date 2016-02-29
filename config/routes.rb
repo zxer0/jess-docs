@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :tags
   resources :spec_types
   resources :specs do
+    post 'indent'
     collection do
       get 'mass_add_view'
       post 'mass_add'
