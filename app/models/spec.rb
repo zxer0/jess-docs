@@ -30,9 +30,13 @@ class Spec < ActiveRecord::Base
         sibling_ids = self.sibling_ids
         self_index = sibling_ids.index(self.id)
         if self_index-1 < 0
-            return nil
+            return -1
         end
         sibling_ids[self_index-1]
+    end
+    
+    def can_indent?
+        closest_older_sibling_id >= 0
     end
     
     def self.all_ancestry_ids(specs)

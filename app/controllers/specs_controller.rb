@@ -70,10 +70,6 @@ class SpecsController < ApplicationController
   def show
      @spec = Spec.find(params[:id])
   end
-  
-  def list
-    @specs = Spec.all
-  end
 
   # GET /specs/new
   def new
@@ -163,6 +159,20 @@ class SpecsController < ApplicationController
       
     end
   end
+  
+  #POST /specs/:spec_id/dedent
+  def dedent
+    @spec = Spec.find(params[:spec_id])
+    @old_parent_id = @spec.parent.id
+    @new_parent = @spec.parent.parent
+    
+    if @spec.update(:parent => @new_parent)
+      # redirect_to :action => 'index', :id => @spec
+    else
+      
+    end
+  end
+
 
   # DELETE /specs/1
   # DELETE /specs/1.json
