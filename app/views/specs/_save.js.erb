@@ -14,12 +14,12 @@ $("ul.errors").html("");
     $('#<%=@spec.id%> .spec-buttons').addClass('in');
   }
   else {
-    <% if @spec.parent %>
-      $('.spec-list .<%=@spec.parent.id %>').replaceWith("<%= j(render partial: "specs", object: @spec.parent, as: :spec) %>");
-      $('.spec-list .<%=@spec.parent.id %> .delete_tag').removeClass('hidden');
-      $('.spec-list .<%=@spec.parent.id %> .spec-buttons').addClass('in');
+    <% if @spec.parent.present? %>
+      $('.s<%=@spec.parent.id %>').replaceWith("<%= j(render partial: "specs", object: @spec.parent, as: :spec) %>");
+      $('.s<%=@spec.parent.id %> .delete_tag').removeClass('hidden');
+      $('.s<%=@spec.parent.id %> .spec-buttons').addClass('in');
     <% else %>
-      $('.full-spec-list').append("<%= j(render partial: "container", object: @spec, as: :spec) %>");
+      $('.full-spec-list').append("<%= j(render partial: "specs", object: @spec, as: :spec) %>");
     <% end %>
   }
   

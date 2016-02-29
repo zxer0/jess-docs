@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  root 'specs#index'
   resources :tickets
   resources :projects
   resources :tag_types
