@@ -1,5 +1,10 @@
 <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", id: 'tag-form', remote: true do %>
-                
+    
+    <label class="label label-default tag ticket tag-checkbox">
+        ticketed
+        <%= check_box_tag 'ticketed', 'true', false, {onclick: 'addProject()', class:"checkbox"} %>
+    </label>  
+    
     <% tag_types.each do |tag_type| %>
         <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
             <%= tag_type.name %>

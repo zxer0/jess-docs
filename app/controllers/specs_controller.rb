@@ -46,6 +46,7 @@ class SpecsController < ApplicationController
     
     @filtered_spec_ids_array = []
     
+    
     @tag_type_ids = params[:tag_types]
     
     if @tag_type_ids
@@ -53,11 +54,18 @@ class SpecsController < ApplicationController
         # @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
         @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).with_tag_type(tag_type_id))
       end
-      
-      @filtered_spec_ids = @filtered_spec_ids_array.inject(:&).uniq
-      
     end
     
+    @ticketed = params[:ticketed]
+    if @ticketed
+      @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).has_ticket)
+    end
+    
+    @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
+    
+    if @filtered_spec_ids
+      @filtered_spec_ids.uniq!
+    end
     
     respond_to do |format|
       format.html
@@ -179,7 +187,11 @@ class SpecsController < ApplicationController
       
     end
   end
-
+  
+  def delete
+    puts "params = #{params}"
+    @spec = Spec.find(params[:spec_id])
+  end
 
   # DELETE /specs/1
   # DELETE /specs/1.json

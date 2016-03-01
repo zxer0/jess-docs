@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   resources :specs do
     post 'indent'
     post 'dedent'
+    get 'delete'
     collection do
       get 'mass_add_view'
       post 'mass_add'

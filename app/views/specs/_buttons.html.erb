@@ -45,8 +45,8 @@
                     edit_spec_path(spec), 
                     remote:true, 
                     class: "btn btn-default glyphicon glyphicon-pencil" %>
-        <%= link_to '', spec, 
-                    method: :delete,
+        <%= link_to '', 
+                    spec_delete_path(spec),
                     class: "delete_spec btn btn-default glyphicon glyphicon-trash",
                     :remote => true %>
     </span>

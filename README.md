@@ -32,10 +32,7 @@ stuff i want to do:
 - fix deleting stuff*
 - mass apply tags?
 - archive tags
-- validation on mass add
-- mass adding children
 - mass edit
-- add 'ticketed' as a thing to filter by
 - text editor? https://mindmup.github.io/bootstrap-wysiwyg/
 - users
 -   user settings...
@@ -45,6 +42,7 @@ stuff i want to do:
 -   e.g., 'viewing x of y specs in project z'
 - badges for filtering? like number of specs
 - clicking two buttons in a row...
+- spinners
 
 
 
@@ -64,4 +62,7 @@ done
 - mass add something not right in unindenting *sigh*
 - indent
 - dedent?
+- validation on mass add
+- mass adding children
 - add new top level spec and add child and add parent need to re render stuff.. correctly
+- add 'ticketed' as a thing to filter by

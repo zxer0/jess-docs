@@ -1,0 +1,18 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="modal-body">
+          <ul class="errors"></ul>
+              This will delete the following specs:
+              <div class="well">
+                  <%= render partial: "specs", object: @spec, as: :spec %>
+              </div>
+        </div>
+        <div class="modal-footer">
+            <%= link_to "cancel", "#", class: "btn btn-default", data: { dismiss: "modal" } %>
+            <%= link_to "delete", spec_path(@spec), method: :delete, remote: true, class: "btn btn-danger" %>
+        </div>
+    </div>
+</div>

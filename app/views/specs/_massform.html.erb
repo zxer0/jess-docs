@@ -43,7 +43,7 @@
         <% end %>
           
           
-          <%= text_area_tag :text,'', rows: 15, class:"form-control" %>
+          <%= text_area_tag :text, '', rows: 15, class:"form-control mass-add-text" %>
           
           <% if !@parent.nil? %>
             
@@ -58,7 +58,7 @@
       
       <div class="modal-footer">
         <%= link_to "cancel", "#", class: "btn", data: {dismiss: "modal"} %>
-        <%= submit_tag('submit', id: 'mass-submit', class: "btn btn-primary") %>
+        <%= button_tag('submit', id: 'mass-submit', class: "btn btn-primary") %>
       </div>
     <% end %>
   </div>
