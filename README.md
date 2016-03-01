@@ -44,7 +44,8 @@ stuff i want to do:
 - count of items esp. when filtering
 -   e.g., 'viewing x of y specs in project z'
 - badges for filtering? like number of specs
-- dedent?
+- clicking two buttons in a row...
+
 
 
 done
@@ -62,4 +63,5 @@ done
 - add ticket (as type of tag?) ticket vs label
 - mass add something not right in unindenting *sigh*
 - indent
+- dedent?
 - add new top level spec and add child and add parent need to re render stuff.. correctly

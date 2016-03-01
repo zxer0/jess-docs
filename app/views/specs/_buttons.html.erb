@@ -12,9 +12,8 @@
         
               
         <% if !spec.bottom? %>
-            <%= link_to '+ child', 
-                        new_spec_path(  :id =>spec.id, 
-                                        :add_child => true),
+            <%= link_to '+ children', 
+                        mass_add_view_specs_path(:id =>spec.id),
                         remote:true,
                         class: "btn btn-default" %>
         <% end %>

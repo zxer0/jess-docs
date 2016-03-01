@@ -27,7 +27,7 @@ class Spec < ActiveRecord::Base
     end
     
     def closest_older_sibling_id
-        sibling_ids = self.sibling_ids
+        sibling_ids = self.siblings.for_project(self.project.id).map(&:id)
         self_index = sibling_ids.index(self.id)
         if self_index-1 < 0
             return -1
@@ -48,11 +48,13 @@ class Spec < ActiveRecord::Base
         ids.uniq
     end
 
-    def self.parse_block(text, project_id)
-        self.parse_alternate(text.split("\n"), project_id)
+    def self.parse_block(text, project_id, parent_id=nil)
+        self.parse_alternate(   :text_array => text.split("\n"), 
+                                :project_id => project_id, 
+                                :parent_id => parent_id)
     end
     
-    def self.parse_alternate(text_array, project_id, depth=0, previous=nil, error_count=0)
+    def self.parse_alternate(text_array:, project_id:, parent_id:nil, depth:0, previous:nil, error_count:0)
         #regex = /(\t*|-*)\s?(\w+)\s?(.*)/
         #instead of looking for s{2}* we should replace s{2}* with \t
         # not sure if this needs to be just the leading whitespace only?
@@ -84,7 +86,9 @@ class Spec < ActiveRecord::Base
             puts "spec = #{spec.description}"
             puts "depth = #{depth}, spec_depth = #{spec_depth}"
             
-            unless(spec_depth == 0)
+            if(spec_depth == 0)
+                spec.update_attributes!(:parent_id => parent_id)
+            else
                 if(depth == spec_depth)
                     parent = previous.nil? ? nil : previous.parent
                     spec.update!(:parent => parent)
@@ -105,7 +109,12 @@ class Spec < ActiveRecord::Base
         end
         
         text_array.delete(line)
-        self.parse_alternate(text_array, project_id, spec_depth, spec, error_count)
+        self.parse_alternate(   :text_array => text_array, 
+                                :project_id => project_id, 
+                                :depth => spec_depth, 
+                                :previous => spec, 
+                                :error_count => error_count,
+                                :parent_id => parent_id)
     end
     
     def self.parse(text_array, project_id, depth=0, previous=nil, error_count=0)

@@ -7,7 +7,7 @@ class SpecsController < ApplicationController
   def index
     @filtered_spec_ids = Spec.all.map(&:id)
     @projects = Project.all
-    @selected_project_id = Project.first.id
+    @selected_project_id = params[:project_id] || Project.first.id
     
   
     @specs = Spec.roots.for_project(@selected_project_id)
@@ -73,7 +73,9 @@ class SpecsController < ApplicationController
 
   # GET /specs/new
   def new
-    
+    if params[:project_id]
+      @selected_project_id = params[:project_id]
+    end
     @spec_types = SpecType.all
     @projects = Project.all
     
@@ -138,12 +140,17 @@ class SpecsController < ApplicationController
   #GET /specs/mass_add_view
   def mass_add_view
     @projects = Project.all
+    if params[:id]
+      @parent = Spec.find(params[:id])
+    end
   end
   
   #POST /specs/mass_add
   def mass_add
     @projects = Project.all
-    Spec.parse_block(params[:text], params[:project][:id])
+    parent_id = params[:project][:parent_id]
+    
+    Spec.parse_block(params[:text], params[:project][:id], parent_id)
     @specs = Spec.for_project(params[:project][:id]).roots
     # redirect_to :action => 'index'
   end

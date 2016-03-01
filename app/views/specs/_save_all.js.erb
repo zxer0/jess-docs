@@ -1,2 +1,2 @@
 $("#spec-modal").modal("hide");
-$(".full-spec-list").html("<%= j(render partial: "container", collection: @specs, as: :spec) %>");
+$(".full-spec-list").html("<%= j(render partial: "specs", collection: @specs, as: :spec) %>");

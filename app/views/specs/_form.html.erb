@@ -22,7 +22,8 @@
             <%= f.collection_select :project_id, 
                                     @projects, 
                                     :id, 
-                                    :name, {},
+                                    :name, 
+                                    {:selected => project_id},
                                     {class: "form-control"} %>
           </div>
         <% elsif @parent.present? %>
@@ -55,8 +56,8 @@
         
       </div>
       <div class="modal-footer">
-        <%= f.submit class: "btn btn-primary", id: "submit" %>
         <%= link_to "cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+        <%= f.submit class: "btn btn-primary", id: "submit" %>
       </div>
     <% end %>
   </div>
