@@ -24,7 +24,6 @@ Visit http://docs.c9.io for support, or to learn more about using Cloud9 IDE.
 To watch some training videos, visit http://www.youtube.com/user/c9ide
 
 stuff i want to do:
-- confirmation on delete - "you sure? this will delete the following specs..."
 - expand/contract specs
 - soft delete instead of hard delete?
 - checkboxes to edit multiple?
@@ -43,7 +42,7 @@ stuff i want to do:
 - badges for filtering? like number of specs
 - clicking two buttons in a row...
 - spinners
-
+- ancestry optimization
 
 
 done
@@ -66,3 +65,4 @@ done
 - mass adding children
 - add new top level spec and add child and add parent need to re render stuff.. correctly
 - add 'ticketed' as a thing to filter by
+- confirmation on delete - "you sure? this will delete the following specs..."

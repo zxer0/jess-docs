@@ -1,8 +1,11 @@
 <span class="spec"  id="<%=spec.id%>">
     <div class="spec-data">
+        
+        <button class="btn btn-xs edit-button glyphicon glyphicon-edit"></button>
+        
         <%= render partial: "data", object: spec, as: :spec %>
     </div>
-    <div class="spec-buttons collapse editable">
+    <div class="spec-buttons editable collapse">
         <%= render partial: "buttons", object: spec, as: :spec %>
     </div>
 </span>
