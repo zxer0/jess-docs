@@ -12,6 +12,21 @@ class Ticket < ActiveRecord::Base
         tracker_url + self.tracker_id
     end
     
+    def serialize
+        {
+            :id => self.id,
+            :name => self.name,
+            :url => self.url
+        }
+    end
+    
+    def self.serialize_array(tickets)
+        tickets_hash_array = []
+        tickets.map do |ticket|
+            tickets_hash_array << ticket.serialize
+        end
+    end
+    
     private
         def parse_tracker_id
             tracker_id = self.name.strip

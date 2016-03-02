@@ -39,6 +39,19 @@ class Spec < ActiveRecord::Base
         closest_older_sibling_id >= 0
     end
     
+    def serialize
+        {   :id => self.id,
+            :description => self.description,
+            :spec_type => self.spec_type,
+            :project_id => self.project_id,
+            :tags => Tag.serialize_array(self.tags),
+            :tickets => Ticket.serialize_array(self.tickets),
+            :is_bottom => self.is_bottom,
+            :can_indent => self.can_indent,
+            :is_root => self.is_root?
+        }
+    end
+    
     def self.all_ancestry_ids(specs)
         ids = []
         specs.map do |spec|

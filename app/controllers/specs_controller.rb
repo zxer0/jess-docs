@@ -10,7 +10,10 @@ class SpecsController < ApplicationController
     @selected_project_id = params[:project_id] || Project.first.id
     
   
-    @specs = Spec.roots.for_project(@selected_project_id)
+    @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
+      parent.serialize.merge(
+      { children: children })
+    end
     
     @tag_types = TagType.all
     

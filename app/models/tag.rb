@@ -14,4 +14,19 @@ class Tag < ActiveRecord::Base
     def color
         TagType.find(tag_type_id).color
     end
+    
+    def self.serialize_array(tag_array)
+        tag_hash_array = []
+        tag_array.map do |tag|
+            tag_hash_array << tag.serialize
+        end
+    end
+    
+    def serialize
+    {
+        :id => self.id,
+        :name => self.name,
+        :color => self.color
+    }
+    end
 end
