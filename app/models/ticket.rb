@@ -25,6 +25,8 @@ class Ticket < ActiveRecord::Base
         tickets.map do |ticket|
             tickets_hash_array << ticket.serialize
         end
+        
+        tickets_hash_array
     end
     
     private

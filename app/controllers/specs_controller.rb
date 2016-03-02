@@ -11,8 +11,17 @@ class SpecsController < ApplicationController
     
   
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
-      parent.serialize.merge(
-      { children: children })
+      
+      { id: parent.id,
+        description: parent.description,
+        :spec_type => parent.spec_type,
+        project_id: parent.project_id,
+        tags: Tag.serialize_array(parent.tags).first,
+        tickets: Ticket.serialize_array(parent.tickets).first,
+        is_bottom: parent.is_bottom,
+        can_indent: parent.can_indent,
+        is_root: parent.is_root?,
+        children: children }
     end
     
     @tag_types = TagType.all
@@ -30,7 +39,11 @@ class SpecsController < ApplicationController
     # filtered_specs = Spec.filter_by_project(@selected_project_id)
       
     # end
-    @specs = Spec.roots.for_project(@selected_project_id) #Spec.get_top_level(filtered_specs)
+    
+    @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
+      parent.serialize.merge(
+      { children: children })
+    end
     
     respond_to do |format|
       format.html

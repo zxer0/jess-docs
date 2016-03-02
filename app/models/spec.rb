@@ -44,8 +44,8 @@ class Spec < ActiveRecord::Base
             :description => self.description,
             :spec_type => self.spec_type,
             :project_id => self.project_id,
-            :tags => Tag.serialize_array(self.tags),
-            :tickets => Ticket.serialize_array(self.tickets),
+            :tags => Tag.serialize_array(self.tags).first,
+            :tickets => Ticket.serialize_array(self.tickets).first,
             :is_bottom => self.is_bottom,
             :can_indent => self.can_indent,
             :is_root => self.is_root?

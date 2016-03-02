@@ -34,7 +34,7 @@
                         remote:true,
                         class: "indent_spec btn btn-default glyphicon glyphicon-indent-left" %>
         <% end %>
-        <% if !spec["is_root"] %>
+        <% if !(spec["is_root"]==true) %>
             <%= link_to '', 
                     spec_dedent_url(  :spec_id =>spec["id"]),
                     method: :post,
