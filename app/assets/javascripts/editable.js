@@ -1,13 +1,13 @@
 $(document).ready(function () {
-    $(".spec").hover(function () {
+    $(document).on('mouseenter','.spec', function(){
        $('.edit-button', this).css('visibility','visible');
-    }, function() {
-       $('.edit-button', this).css('visibility','hidden');
-    });
+    }).on('mouseleave', '.spec', function() {
+        $('.edit-button', this).css('visibility','hidden');
+    });  
     
-    $('.edit-button').click( function() {
+    $(document).on('click','.edit-button', function(){
         var btnElem = $(this).parent().next('.spec-buttons').first();
-        $('.spec-buttons').removeClass('in');
+        
         btnElem.collapse('toggle');
        
     });
