@@ -38,11 +38,10 @@ class SpecsController < ApplicationController
     
     # filtered_specs = Spec.filter_by_project(@selected_project_id)
       
-    # end
+   
     
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
-      parent.serialize.merge(
-      { children: children })
+      parent.to_hash.merge({ children: children})
     end
     
     respond_to do |format|
@@ -259,7 +258,6 @@ class SpecsController < ApplicationController
       params.require(:spec).permit(:description, :spec_type_id, :parent_id, :project_id)
     end
   
-    
     def spec_param
       params.require(:spec).permit(:description, :spec_type_id, :project_id)
     end
@@ -295,6 +293,17 @@ class SpecsController < ApplicationController
     
     def show_spec_types
       @spec_type = SpecType.find(params[:id])
+    end
+    
+    def tag_hash
+      tag_hash = Hash.new { |h,k| h[k] = [] }
+      Tag.joins(:tag_type).pluck(:spec_id, :name, :color).map do |tag| 
+        if tag_hash[tag.first]
+          tag_hash[tag.first] << tag[1..2]
+        else
+          tag_hash.merge( [tag.first, [tag[1..2]] ] ) 
+        end
+      end
     end
     
 end

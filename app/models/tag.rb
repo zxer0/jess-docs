@@ -22,11 +22,4 @@ class Tag < ActiveRecord::Base
         end
     end
     
-    def serialize
-    {
-        :id => self.id,
-        :name => self.name,
-        :color => self.color
-    }
-    end
 end
