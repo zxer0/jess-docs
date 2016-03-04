@@ -15,11 +15,4 @@ class Tag < ActiveRecord::Base
         TagType.find(tag_type_id).color
     end
     
-    def self.serialize_array(tag_array)
-        tag_hash_array = []
-        tag_array.map do |tag|
-            tag_hash_array << tag.serialize
-        end
-    end
-    
 end

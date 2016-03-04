@@ -40,15 +40,13 @@ class Spec < ActiveRecord::Base
     end
     
     def to_hash
-        {   id: self.id,
-            description: self.description,
-            spec_type: self.spec_type,
-            project_id: self.project_id,
-            # :tags => Tag.serialize_array(self.tags).first,
-            # :tickets => Ticket.serialize_array(self.tickets).first,
-            bottom: self.bottom?,
-            can_indent: self.can_indent?,
-            is_root: self.root?
+        {   :id => self.id,
+            :description => self.description,
+            :spec_type => self.spec_type,
+            :project_id => self.project_id,
+            :bottom => self.bottom?,
+            :can_indent => self.can_indent?,
+            :is_root => self.root?
         }
     end
     

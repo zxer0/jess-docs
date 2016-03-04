@@ -5,24 +5,17 @@ class SpecsController < ApplicationController
   # GET /specs
   # GET /specs.json
   def index
-    @filtered_spec_ids = Spec.all.map(&:id)
+    @filtered_spec_ids = Spec.pluck(:id)
     @projects = Project.all
     @selected_project_id = params[:project_id] || Project.first.id
     
   
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
-      
-      { id: parent.id,
-        description: parent.description,
-        :spec_type => parent.spec_type,
-        project_id: parent.project_id,
-        tags: Tag.serialize_array(parent.tags).first,
-        tickets: Ticket.serialize_array(parent.tickets).first,
-        is_bottom: parent.is_bottom,
-        can_indent: parent.can_indent,
-        is_root: parent.is_root?,
-        children: children }
+      parent.to_hash.merge({ children: children})
     end
+    
+    @tag_hash = tag_hash
+    @ticket_hash = ticket_hash
     
     @tag_types = TagType.all
     
@@ -41,8 +34,10 @@ class SpecsController < ApplicationController
    
     
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
-      parent.to_hash.merge({ children: children})
+      parent.to_hash.merge({ :children => children})
     end
+    @tag_hash = tag_hash
+    @ticket_hash = ticket_hash
     
     respond_to do |format|
       format.html
@@ -297,13 +292,43 @@ class SpecsController < ApplicationController
     
     def tag_hash
       tag_hash = Hash.new { |h,k| h[k] = [] }
-      Tag.joins(:tag_type).pluck(:spec_id, :name, :color).map do |tag| 
+      Tag.joins(:tag_type).pluck(:spec_id, :id, :name, :color).map do |tag| 
         if tag_hash[tag.first]
-          tag_hash[tag.first] << tag[1..2]
+          tag_hash[tag.first] << {
+            :id => tag[1],
+            :name => tag[2],
+            :color => tag[3]
+          }
         else
-          tag_hash.merge( [tag.first, [tag[1..2]] ] ) 
+          tag_hash.merge( [tag.first,  {
+            :id => tag[1],
+            :name => tag[2],
+            :color => tag[3]
+          } ] ) 
         end
       end
+      tag_hash
     end
     
+    def ticket_hash
+      ticket_hash = Hash.new { |h,k| h[k] = [] }
+      Ticket.pluck(:spec_id, :id, :tracker_id, :name).map do |ticket| 
+        if ticket_hash[ticket.first]
+          ticket_hash[ticket.first] << {
+            :id => ticket[1],
+            :tracker_id => ticket[2],
+            :url => Ticket.get_url(ticket[2]),
+            :name => ticket[3]
+          }
+        else
+          ticket_hash.merge( [ticket.first,  {
+            :id => ticket[1],
+            :tracker_id => ticket[2],
+            :url => Ticket.get_url(ticket[2]),
+            :name => ticket[3]
+          } ] ) 
+        end
+      end
+      ticket_hash
+    end
 end
