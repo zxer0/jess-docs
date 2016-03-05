@@ -9,7 +9,9 @@ $(document).ready(function () {
         var btnElem = $(this).parent().next('.spec-buttons').first();
         
         btnElem.collapse('toggle');
-       
+        var tagElem = $(this).siblings('.tags').first().find('.delete_tag');
+        
+        toggleEdit(tagElem);
     });
     
 });
@@ -21,5 +23,14 @@ function toggleTagEdit() {
     }
     else {
         tagElem.addClass('hidden');
+    }
+}
+
+function toggleEdit(tagElem) {
+    if ( tagElem.hasClass('hidden')){
+        tagElem.removeClass('hidden');
+    }
+    else {
+        tagElem.removeClass('hidden');
     }
 }

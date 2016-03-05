@@ -245,27 +245,10 @@ class SpecsController < ApplicationController
   def destroy
     @spec = Spec.find(params[:id])
     
-    # new_parent_id = @spec.parent_id
-    # if !new_parent_id.nil?
-    #   @parent = Spec.find(new_parent_id)
-    # end
-    
-    # deleted_parent_id = @spec.parent_id
-    # parent_of_parent_id = @spec.parent.nil? ? nil : @spec.parent.parent_id
-    # has_children = @spec.children.any?
     deleted_id = params[:id]
-    # child_ids = @spec.children.map(&:id)
-    
-    # #won't somebody please think of the children
-    # @spec.children.each do |child|
-    #   child.update!(:parent_id => new_parent_id)
-    # end
-    
-   
+
     @spec.destroy
-    
-    # deleted_parent_children = deleted_parent_id.nil? ? nil : Spec.find(deleted_parent_id).children.map(&:id)
-    
+  
     respond_to do |format|
       format.html { redirect_to specs_url, notice: 'Spec was successfully destroyed.' }
       format.json { head :no_content }
