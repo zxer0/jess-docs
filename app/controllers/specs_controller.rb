@@ -203,6 +203,7 @@ class SpecsController < ApplicationController
     @closest_older_sibling_id = @spec.closest_older_sibling_id
     
     if @spec.update(:parent => Spec.find(@closest_older_sibling_id))
+      @print_specs_hash = get_spec_hash(Spec.find(@closest_older_sibling_id).subtree)
       # redirect_to :action => 'index', :id => @spec
     else
       
