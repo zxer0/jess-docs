@@ -124,6 +124,7 @@ class SpecsController < ApplicationController
     @projects = Project.all
     
     if params[:spec][:child_id]
+      @child_id = params[:spec][:child_id]
       @child = Spec.find(params[:spec][:child_id])
     end
     
@@ -158,7 +159,8 @@ class SpecsController < ApplicationController
   # PATCH/PUT /specs/1.json
   def update
     @spec = Spec.find(params[:id])
-	
+	  
+	  
     if @spec.update_attributes(spec_param)
       # redirect_to :action => 'index', :id => @spec
     else
