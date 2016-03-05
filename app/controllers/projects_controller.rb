@@ -26,15 +26,20 @@ class ProjectsController < ApplicationController
   def create
     @project = Project.new(project_params)
 
-    respond_to do |format|
-      if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
-        format.json { render :show, status: :created, location: @project }
-      else
-        format.html { render :new }
-        format.json { render json: @project.errors, status: :unprocessable_entity }
-      end
+    if @project.save
+      # redirect_to '/specs'
+    else
+      render :action => 'new'
     end
+    # respond_to do |format|
+    #   if @project.save
+    #     format.html { redirect_to @project, notice: 'Project was successfully created.' }
+    #     format.json { render :show, status: :created, location: @project }
+    #   else
+    #     format.html { render :new }
+    #     format.json { render json: @project.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # PATCH/PUT /projects/1
@@ -69,6 +74,6 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
-      params[:project]
+      params.require(:project).permit(:name)
     end
 end
