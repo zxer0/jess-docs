@@ -15,4 +15,11 @@ class Tag < ActiveRecord::Base
         TagType.find(tag_type_id).color
     end
     
+    def to_hash
+    {
+        :id => self.id,
+        :name => self.name,
+        :color => self.color
+     }
+    end
 end

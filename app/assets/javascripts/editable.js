@@ -12,6 +12,9 @@ $(document).ready(function () {
         var tagElem = $(this).siblings('.tags').first().find('.delete_tag');
         
         toggleEdit(tagElem);
+        
+        var ticketElem = $(this).siblings('.tickets').first().find('.delete_tag');
+        toggleEdit(ticketElem)
     });
     
 });

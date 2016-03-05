@@ -6,6 +6,6 @@ $("ul.errors").html("")
 <% else %>
   var ticketElem = $("#<%=@ticket.spec.id%> span.tickets");
   $("#spec-modal").modal("hide");
-  ticketElem.html("<%= j(render partial: "tickets/show", collection: @ticket.spec.tickets, as: :ticket) %>");
+  ticketElem.append("<%= j(render partial: "tickets/show", object: @ticket.to_hash, as: :ticket) %>");
   $('#<%=@ticket.spec.id%> .<%=@ticket.id%> .delete_tag').removeClass('hidden');
 <% end %>

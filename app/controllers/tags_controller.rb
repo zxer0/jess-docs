@@ -30,6 +30,7 @@ class TagsController < ApplicationController
     
     if @tag.save
       # redirect_to '/specs'
+      # @tag_array = tag_array(@tag.spec_id)
     else
       redirect_to :action => 'new', :id => tag_params[:spec_id]
     end
@@ -85,4 +86,5 @@ class TagsController < ApplicationController
     def new_tag_params
       params.require(:spec_id)
     end
+    
 end
