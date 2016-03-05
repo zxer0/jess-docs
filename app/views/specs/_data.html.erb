@@ -1,8 +1,10 @@
-<span class="spec-type">
-    <%= spec[:spec_type] %>
+<span class="spec-words">
+    <span class="spec-type">
+        <%= spec[:spec_type] %>
+    </span>
+    
+    <%= spec[:description] %>
 </span>
-
-<%= spec[:description] %>
 <span class="tickets">
     <% if @ticket_hash[spec[:id]] %>
     <%= render partial: "tickets/show", collection: @ticket_hash[spec[:id]], as: :ticket %>

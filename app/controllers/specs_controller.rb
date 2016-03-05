@@ -1,6 +1,9 @@
 class SpecsController < ApplicationController
   # before_action :set_spec, only: [:show, :edit, :update, :destroy]
-  
+  before_action :initialize_tags, only: [ :index, 
+                                          :filter_project, 
+                                          :filter_tag, 
+                                          :mass_add_view]
   
   # GET /specs
   # GET /specs.json
@@ -8,14 +11,10 @@ class SpecsController < ApplicationController
     @filtered_spec_ids = Spec.pluck(:id)
     @projects = Project.all
     @selected_project_id = params[:project_id] || Project.first.id
-    
   
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
       parent.to_hash.merge({ children: children})
     end
-    
-    @tag_hash = tag_hash
-    @ticket_hash = ticket_hash
     
     @tag_types = TagType.all
     
@@ -34,8 +33,6 @@ class SpecsController < ApplicationController
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
       parent.to_hash.merge({ :children => children})
     end
-    @tag_hash = tag_hash
-    @ticket_hash = ticket_hash
     
     respond_to do |format|
       format.html
@@ -51,8 +48,6 @@ class SpecsController < ApplicationController
     @specs = Spec.for_project(project_id).arrange_serializable do |parent, children|
       parent.to_hash.merge({ :children => children})
     end
-    @tag_hash = tag_hash
-    @ticket_hash = ticket_hash
     
     @projects = Project.all
     
@@ -118,6 +113,7 @@ class SpecsController < ApplicationController
     @projects = Project.all
     @spec = Spec.find(params[:id])
     @spec_types = SpecType.all
+    
   end
 
   # POST /specs
@@ -130,10 +126,23 @@ class SpecsController < ApplicationController
       @child = Spec.find(params[:spec][:child_id])
     end
     
+    @tag_hash = tag_hash
+    @ticket_hash = ticket_hash
+    
     if @spec.save
       if params[:spec][:child_id]
         @spec.update!(:parent => @child.parent)
         @child.update!(:parent => @spec)
+      end
+      
+      if spec_params[:parent_id]
+        @print_specs_hash = @spec.parent.subtree.arrange_serializable do |parent, children|
+          parent.to_hash.merge({ :children => children})
+        end
+      else
+        @print_specs_hash = @spec.subtree.arrange_serializable do |parent, children|
+          parent.to_hash.merge({ :children => children})
+        end
       end
       
       # redirect_to :action => 'index'
@@ -160,8 +169,15 @@ class SpecsController < ApplicationController
   #GET /specs/mass_add_view
   def mass_add_view
     @projects = Project.all
+    
     if params[:id]
-      @parent = Spec.find(params[:id])
+      @parent_id = params[:id]
+      @parent = Spec.find(@parent_id)
+      
+      @print_specs_hash = @parent.to_hash
+      # @print_specs_hash = @parent.arrange_serializable do |parent, children|
+      #   parent.to_hash.merge({ :children => children})
+      # end
     end
   end
   
@@ -201,8 +217,14 @@ class SpecsController < ApplicationController
   end
   
   def delete
-    puts "params = #{params}"
+    @tag_hash = tag_hash
+    @ticket_hash = ticket_hash
     @spec = Spec.find(params[:spec_id])
+    
+     @deleted_specs = @spec.subtree.arrange_serializable do |parent, children|
+      parent.to_hash.merge({ :children => children})
+    end
+    
   end
 
   # DELETE /specs/1
@@ -210,37 +232,32 @@ class SpecsController < ApplicationController
   def destroy
     @spec = Spec.find(params[:id])
     
-    new_parent_id = @spec.parent_id
-    if !new_parent_id.nil?
-      @parent = Spec.find(new_parent_id)
-    end
+    # new_parent_id = @spec.parent_id
+    # if !new_parent_id.nil?
+    #   @parent = Spec.find(new_parent_id)
+    # end
     
-    deleted_parent_id = @spec.parent_id
-    parent_of_parent_id = @spec.parent.nil? ? nil : @spec.parent.parent_id
-    has_children = @spec.children.any?
+    # deleted_parent_id = @spec.parent_id
+    # parent_of_parent_id = @spec.parent.nil? ? nil : @spec.parent.parent_id
+    # has_children = @spec.children.any?
     deleted_id = params[:id]
-    child_ids = @spec.children.map(&:id)
+    # child_ids = @spec.children.map(&:id)
     
     # #won't somebody please think of the children
     # @spec.children.each do |child|
     #   child.update!(:parent_id => new_parent_id)
     # end
     
+   
     @spec.destroy
     
-    deleted_parent_children = deleted_parent_id.nil? ? nil : Spec.find(deleted_parent_id).children.map(&:id)
+    # deleted_parent_children = deleted_parent_id.nil? ? nil : Spec.find(deleted_parent_id).children.map(&:id)
     
     respond_to do |format|
       format.html { redirect_to specs_url, notice: 'Spec was successfully destroyed.' }
       format.json { head :no_content }
       format.js   { render :layout => false, 
-                    :locals => {:deleted_parent_id => deleted_parent_id, 
-                                :has_children => has_children,
-                                :deleted_id => deleted_id,
-                                :parent_of_parent_id => parent_of_parent_id,
-                                :child_ids => child_ids,
-                                :deleted_parent_children => deleted_parent_children
-                    } }
+                    :locals => {:deleted_id => deleted_id} }
     end
   end
 
@@ -249,6 +266,11 @@ class SpecsController < ApplicationController
     # def set_spec
     #   @spec = Spec.find(params[:id])
     # end
+    
+    def initialize_tags
+      @tag_hash = tag_hash
+      @ticket_hash = ticket_hash
+    end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def spec_params

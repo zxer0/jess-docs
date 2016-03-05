@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $(document).on('mouseenter','.spec', function(){
-       $('.edit-button', this).css('visibility','visible');
+      $('.edit-button', this).css('visibility','visible');
     }).on('mouseleave', '.spec', function() {
         $('.edit-button', this).css('visibility','hidden');
     });  
