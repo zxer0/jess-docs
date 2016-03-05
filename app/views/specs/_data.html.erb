@@ -1,17 +1,17 @@
 <span class="spec-type">
-    <%= spec["spec_type"] %>
+    <%= spec[:spec_type] %>
 </span>
 
-<%= spec["description"] %>
+<%= spec[:description] %>
 <span class="tickets">
-    <% if @ticket_hash[spec["id"]] %>
-    <%= render partial: "tickets/show", collection: @ticket_hash[spec["id"]], as: :ticket %>
+    <% if @ticket_hash[spec[:id]] %>
+    <%= render partial: "tickets/show", collection: @ticket_hash[spec[:id]], as: :ticket %>
     <% end %>
 </span>
 
 <span class="tags">
-    <% if @tag_hash[spec["id"]].any? %>
-        <% @tag_hash[spec["id"]].each do |tag_array| %>
+    <% if @tag_hash[spec[:id]].any? %>
+        <% @tag_hash[spec[:id]].each do |tag_array| %>
         
         <%= render partial: "tags/show", 
                     object: tag_array, 

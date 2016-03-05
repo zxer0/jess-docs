@@ -30,8 +30,6 @@ class SpecsController < ApplicationController
     @project = Project.find(@selected_project_id)
     
     # filtered_specs = Spec.filter_by_project(@selected_project_id)
-      
-   
     
     @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
       parent.to_hash.merge({ :children => children})
@@ -49,9 +47,13 @@ class SpecsController < ApplicationController
     project_id = params[:project_id]
     @tag_types = TagType.all
     @project = Project.find(project_id)
-    @specs = Spec.for_project(project_id).roots
-    # @project_specs = Spec.for_project(@project.id)
-    # @filtered_spec_ids = @project_specs.map(&:id)
+    
+    @specs = Spec.for_project(project_id).arrange_serializable do |parent, children|
+      parent.to_hash.merge({ :children => children})
+    end
+    @tag_hash = tag_hash
+    @ticket_hash = ticket_hash
+    
     @projects = Project.all
     
     @filtered_spec_ids_array = []
