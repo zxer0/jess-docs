@@ -1,25 +1,25 @@
 <div class="btn-toolbar">
     <span class="btn-group btn-group-xs" role="group">
         <%= link_to '+ tag', 
-                    new_tag_path(:id => spec.id), 
+                    new_tag_path(:id => spec[:id]), 
                     remote:true, 
                     class: "btn btn-default" %>
         
         <%= link_to '+ ticket', 
-                    new_ticket_path(:id => spec.id), 
+                    new_ticket_path(:id => spec[:id]), 
                     remote: true,
                     class: "btn btn-default" %>     
         
               
-        <% if !spec.bottom? %>
+        <% if !spec[:is_bottom] %>
             <%= link_to '+ children', 
-                        mass_add_view_specs_path(:id =>spec.id),
+                        mass_add_view_specs_path(:id =>spec[:id]),
                         remote:true,
                         class: "btn btn-default" %>
         <% end %>
         
         <%= link_to '+ parent', 
-                    new_spec_path(:id => spec.id), 
+                    new_spec_path(:id => spec[:id]), 
                     remote: true,
                     class: "btn btn-default" %>
         
@@ -27,26 +27,26 @@
     </span>
     <span class="btn-group btn-group-xs" role="group">
         
-        <% if spec.can_indent? %>
+        <% if spec[:can_indent] %>
             <%= link_to '', 
-                        spec_indent_url(  :spec_id =>spec.id),
+                        spec_indent_url(  :spec_id =>spec[:id]),
                         method: :post,
                         remote:true,
                         class: "indent_spec btn btn-default glyphicon glyphicon-indent-left" %>
         <% end %>
-        <% if !spec.root? %>
+        <% if !(spec[:is_root]==true) %>
             <%= link_to '', 
-                    spec_dedent_url(  :spec_id =>spec.id),
+                    spec_dedent_url(  :spec_id => spec[:id]),
                     method: :post,
                     remote:true,
                     class: "indent_spec btn btn-default glyphicon glyphicon-indent-right" %>
         <% end %>
         <%= link_to '', 
-                    edit_spec_path(spec), 
+                    edit_spec_path(:id => spec[:id]), 
                     remote:true, 
                     class: "btn btn-default glyphicon glyphicon-pencil" %>
         <%= link_to '', 
-                    spec_delete_path(spec),
+                    spec_delete_path(:spec_id => spec[:id]),
                     class: "delete_spec btn btn-default glyphicon glyphicon-trash",
                     :remote => true %>
     </span>

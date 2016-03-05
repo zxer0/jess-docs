@@ -1,6 +1,6 @@
-<span class="label label-default tag ticket <%=ticket.id%>">
-    <%= link_to ticket.name, ticket.url, :target => '_blank' %>
+<span class="label label-default tag ticket <%=ticket[:id]%>">
+    <%= link_to ticket[:name], ticket[:url], :target => '_blank' %>
     
-    <%= link_to 'x', ticket, method: :delete, :remote => true, :class => 'delete_tag hidden' %>
+    <%= link_to 'x', ticket_path(:id => ticket[:id]), method: :delete, :remote => true, :class => 'delete_tag hidden' %>
     
 </span>

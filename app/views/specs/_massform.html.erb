@@ -37,8 +37,8 @@
                                     { class: "form-control"}) %>
           </div>
         <% else %>
-          <div class="well">
-            <%= render partial: "data", object: @parent, as: :spec %>
+          <div class="well well-sm">
+            <%= render partial: "data", object: @print_specs_hash, as: :spec %>
           </div>
         <% end %>
           

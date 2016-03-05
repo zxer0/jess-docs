@@ -6,8 +6,9 @@
         <div class="modal-body">
           <ul class="errors"></ul>
               This will delete the following specs:
-              <div class="well">
-                  <%= render partial: "specs", object: @spec, as: :spec %>
+              <div class="well well-sm">
+                  <% puts "Deleted specs = #{@deleted_specs}" %>
+                  <%= render partial: "specs", collection: @deleted_specs, as: :spec %>
               </div>
         </div>
         <div class="modal-footer">

@@ -1,11 +1,23 @@
-<span class="spec-type">
-    <%= spec.spec_type.name %>
+<span class="spec-words">
+    <span class="spec-type">
+        <%= spec[:spec_type] %>
+    </span>
+    
+    <%= spec[:description] %>
+</span>
+<span class="tickets">
+    <% if @ticket_hash[spec[:id]] %>
+    <%= render partial: "tickets/show", collection: @ticket_hash[spec[:id]], as: :ticket %>
+    <% end %>
 </span>
 
-<%= spec.description %>
-<span class="tickets">
-    <%= render partial: "tickets/show", collection: spec.tickets, as: :ticket %>
-</span>
 <span class="tags">
-    <%= render partial: "tags/show", collection: spec.tags, as: :tag %>
+    <% if @tag_hash[spec[:id]].any? %>
+        <% @tag_hash[spec[:id]].each do |tag_array| %>
+        
+        <%= render partial: "tags/show", 
+                    object: tag_array, 
+                    as: :tag %>
+        <% end %>
+    <% end %>
 </span>

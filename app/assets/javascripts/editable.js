@@ -1,6 +1,6 @@
 $(document).ready(function () {
     $(document).on('mouseenter','.spec', function(){
-       $('.edit-button', this).css('visibility','visible');
+      $('.edit-button', this).css('visibility','visible');
     }).on('mouseleave', '.spec', function() {
         $('.edit-button', this).css('visibility','hidden');
     });  
@@ -9,7 +9,12 @@ $(document).ready(function () {
         var btnElem = $(this).parent().next('.spec-buttons').first();
         
         btnElem.collapse('toggle');
-       
+        var tagElem = $(this).siblings('.tags').first().find('.delete_tag');
+        
+        toggleEdit(tagElem);
+        
+        var ticketElem = $(this).siblings('.tickets').first().find('.delete_tag');
+        toggleEdit(ticketElem)
     });
     
 });
@@ -21,5 +26,14 @@ function toggleTagEdit() {
     }
     else {
         tagElem.addClass('hidden');
+    }
+}
+
+function toggleEdit(tagElem) {
+    if ( tagElem.hasClass('hidden')){
+        tagElem.removeClass('hidden');
+    }
+    else {
+        tagElem.removeClass('hidden');
     }
 }

@@ -1,3 +1,11 @@
+GIT
+  remote: git://github.com/stefankroes/ancestry.git
+  revision: 3aae846759ffc485bc427d732eae54285d9d3c3f
+  branch: 2-1-stable
+  specs:
+    ancestry (1.4.1)
+      activerecord (>= 3.0.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -36,8 +44,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    ancestry (2.1.0)
-      activerecord (>= 3.0.0)
     arel (6.0.3)
     autoprefixer-rails (6.3.3)
       execjs
@@ -148,7 +154,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  ancestry
+  ancestry!
   autoprefixer-rails
   bootstrap-sass (~> 3.2.0)
   byebug

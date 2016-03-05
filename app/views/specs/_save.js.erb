@@ -6,22 +6,21 @@ $("ul.errors").html("");
 <% else %>
   $("#spec-modal").modal("hide");
   
-  var specSpan = $('#<%=@spec.id%>');
+  var specSpan = $('.s<%=@child_id %>');
   
   if(specSpan.length){
-    $('#<%=@spec.id %>').replaceWith("<%= j(render partial: "spec", object: @spec ) %>");
-    $('#<%=@spec.id%> .delete_tag').removeClass('hidden');
-    $('#<%=@spec.id%> .spec-buttons').addClass('in');
+    specSpan.fadeOut();
+    specSpan.remove();
   }
-  else {
-    <% if @spec.parent.present? %>
-      $('.s<%=@spec.parent.id %>').replaceWith("<%= j(render partial: "specs", object: @spec.parent, as: :spec) %>");
-      $('.s<%=@spec.parent.id %> .delete_tag').removeClass('hidden');
-      $('.s<%=@spec.parent.id %> .spec-buttons').addClass('in');
-    <% else %>
-      $('.full-spec-list').append("<%= j(render partial: "specs", object: @spec, as: :spec) %>");
-    <% end %>
-  }
+
+  <% if @spec.parent.present? %>
+    $('.s<%=@spec.parent.id %>').replaceWith("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
+    $('.s<%=@spec.parent.id %> .delete_tag').removeClass('hidden');
+    $('.s<%=@spec.parent.id %> .spec-buttons').addClass('in');
+  <% else %>
+    $('.full-spec-list').append("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
+  <% end %>
+  
   
 
 <% end %>

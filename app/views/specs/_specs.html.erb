@@ -1,13 +1,13 @@
-<span class="spec-list s<%=spec.id%> p<%=spec.parent_id%>">
+<span class="spec-list s<%=spec[:id]%>">
     <ul>      
-        <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec.id)) %>
+        <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec[:id])) %>
             <li>
                 <%= render partial: "spec", object: spec %>
-                <% if (spec.has_children?) %>
+                <% if (spec[:children]) %>
 
-                    <div class="children collapse in" id="<%=spec.id%>children">
+                    <div class="children collapse in" id="<%= spec[:id] %>children">
                         <%= render partial: "specs", 
-                                    collection: spec.children, 
+                                    collection: spec[:children], 
                                     as: :spec %>
                  
                     </div>
