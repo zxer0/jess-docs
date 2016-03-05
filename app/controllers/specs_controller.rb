@@ -3,7 +3,8 @@ class SpecsController < ApplicationController
   before_action :initialize_tags, only: [ :index, 
                                           :filter_project, 
                                           :filter_tag, 
-                                          :mass_add_view]
+                                          :mass_add_view,
+                                          :mass_add]
   
   # GET /specs
   # GET /specs.json
@@ -183,11 +184,14 @@ class SpecsController < ApplicationController
   
   #POST /specs/mass_add
   def mass_add
-    @projects = Project.all
+    # @projects = Project.all
     parent_id = params[:project][:parent_id]
+    @current_project_id = params[:project][:id]
     
-    Spec.parse_block(params[:text], params[:project][:id], parent_id)
-    @specs = Spec.for_project(params[:project][:id]).roots
+    Spec.parse_block(params[:text], @current_project_id, parent_id)
+    # @specs = Spec.for_project(params[:project][:id]).roots
+    
+    @print_specs_hash = get_spec_hash(Spec.for_project(@current_project_id))
     # redirect_to :action => 'index'
   end
 
@@ -270,6 +274,14 @@ class SpecsController < ApplicationController
     def initialize_tags
       @tag_hash = tag_hash
       @ticket_hash = ticket_hash
+    end
+    
+    def get_spec_hash(spec_scope)
+      hash = spec_scope.arrange_serializable do |parent, children|
+        parent.to_hash.merge({ :children => children})
+      end
+      
+      hash
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
