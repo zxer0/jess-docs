@@ -1,9 +1,10 @@
 $('.indent_spec').bind('ajax:success', function() {
+    $('.s<%=@spec.id%>').fadeOut();
     $('.s<%=@spec.id%>').remove();
     
     <% if @spec.root? %>
         var oldParentElem = $('.s<%= @old_parent_id %>');
-        oldParentElem.after("<%= j(render partial: "specs", object: @spec, as: :spec) %>");
+        oldParentElem.after("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
         $('.s<%=@spec.id%> .delete_tag').removeClass('hidden');
         $('.s<%=@spec.id%> .spec-buttons').addClass('in');
     <% else %>

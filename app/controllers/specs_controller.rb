@@ -4,7 +4,10 @@ class SpecsController < ApplicationController
                                           :filter_project, 
                                           :filter_tag, 
                                           :mass_add_view,
-                                          :mass_add]
+                                          :mass_add,
+                                          :create,
+                                          :dedent,
+                                          :indent]
   
   # GET /specs
   # GET /specs.json
@@ -120,16 +123,13 @@ class SpecsController < ApplicationController
   # POST /specs
   # POST /specs.json
   def create
-    @spec = Spec.new(spec_params)
+    @spec = Spec.create(spec_params)
     @projects = Project.all
     
     if params[:spec][:child_id]
       @child_id = params[:spec][:child_id]
       @child = Spec.find(params[:spec][:child_id])
     end
-    
-    @tag_hash = tag_hash
-    @ticket_hash = ticket_hash
     
     if @spec.save
       if params[:spec][:child_id]
@@ -212,10 +212,17 @@ class SpecsController < ApplicationController
   #POST /specs/:spec_id/dedent
   def dedent
     @spec = Spec.find(params[:spec_id])
+   
     @old_parent_id = @spec.parent.id
     @new_parent = @spec.parent.parent
     
     if @spec.update(:parent => @new_parent)
+      if @new_parent
+        @print_specs_hash = get_spec_hash(@new_parent.subtree)
+      else
+        @print_specs_hash = get_spec_hash(@spec.subtree)
+      end
+  
       # redirect_to :action => 'index', :id => @spec
     else
       
