@@ -1,5 +1,6 @@
 class SpecsController < ApplicationController
   # before_action :set_spec, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
   before_action :initialize_tags, only: [ :index, 
                                           :filter_project, 
                                           :filter_tag, 
