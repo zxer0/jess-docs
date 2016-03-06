@@ -4,6 +4,7 @@ class SpecTypes < ActiveRecord::Migration
     create_table :spec_types do |t|
       
       t.column :name, :string
+      t.timestamps null: false
     end
     
     SpecType.create :name => 'it'
