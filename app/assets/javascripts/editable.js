@@ -9,11 +9,11 @@ $(document).ready(function () {
         var btnElem = $(this).parent().next('.spec-buttons').first();
         
         btnElem.collapse('toggle');
-        var tagElem = $(this).siblings('.tags').first().find('.delete_tag');
+        var tagElem = $(this).siblings('.tags').find('.delete_tag');
         
         toggleEdit(tagElem);
         
-        var ticketElem = $(this).siblings('.tickets').first().find('.delete_tag');
+        var ticketElem = $(this).siblings('.tickets').find('.delete_tag');
         toggleEdit(ticketElem)
     });
     
@@ -34,6 +34,6 @@ function toggleEdit(tagElem) {
         tagElem.removeClass('hidden');
     }
     else {
-        tagElem.removeClass('hidden');
+        tagElem.addClass('hidden');
     }
 }

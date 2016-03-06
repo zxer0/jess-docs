@@ -9,3 +9,7 @@ function addProject() {
     }
     $('#tag-form').submit();
 }
+
+function filterProjects() {
+    $('.filter-project').submit();
+}

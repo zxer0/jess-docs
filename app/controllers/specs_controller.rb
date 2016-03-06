@@ -16,9 +16,7 @@ class SpecsController < ApplicationController
     @projects = Project.all
     @selected_project_id = params[:project_id] || Project.first.id
   
-    @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
-      parent.to_hash.merge({ children: children})
-    end
+    @specs = get_spec_hash(Spec.for_project(@selected_project_id))
     
     @tag_types = TagType.all
     
@@ -34,9 +32,7 @@ class SpecsController < ApplicationController
     
     # filtered_specs = Spec.filter_by_project(@selected_project_id)
     
-    @specs = Spec.for_project(@selected_project_id).arrange_serializable do |parent, children|
-      parent.to_hash.merge({ :children => children})
-    end
+    @specs = get_spec_hash(Spec.for_project(@selected_project_id))
     
     respond_to do |format|
       format.html
@@ -49,9 +45,7 @@ class SpecsController < ApplicationController
     @tag_types = TagType.all
     @project = Project.find(project_id)
     
-    @specs = Spec.for_project(project_id).arrange_serializable do |parent, children|
-      parent.to_hash.merge({ :children => children})
-    end
+    @specs = get_spec_hash(Spec.for_project(project_id))
     
     @projects = Project.all
     
@@ -270,7 +264,7 @@ class SpecsController < ApplicationController
     end
     
     def get_spec_hash(spec_scope)
-      hash = spec_scope.arrange_serializable do |parent, children|
+      hash = spec_scope.arrange_serializable(:order => 'created_at ASC') do |parent, children|
         parent.to_hash.merge({ :children => children})
       end
       

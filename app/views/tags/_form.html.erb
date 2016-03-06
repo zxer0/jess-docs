@@ -1,11 +1,7 @@
-<div class="modal-dialog">
+<div class="modal-dialog modal-sm">
 
   <div class="modal-content">
-    
-    <div class="modal-header">
-      <h4 class="modal-title">tag spec</h4>
-    </div>
-    
+
     <%= form_for @tag, remote: true  do |f| %>
       <div class="modal-body">
         <ul class="errors"></ul>
@@ -23,8 +19,8 @@
       </div>
       
       <div class="modal-footer">
-        <%= f.submit class: "btn btn-primary" %>
-        <%= link_to "Cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+        <%= link_to 'cancel', "#", class: "btn", data: {dismiss: "modal"} %>
+        <%= f.submit 'tag spec', class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
