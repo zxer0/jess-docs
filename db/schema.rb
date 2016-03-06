@@ -13,19 +13,19 @@
 
 ActiveRecord::Schema.define(version: 20160227210934) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "projects", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string   "name"
   end
 
-  create_table "recipes", force: :cascade do |t|
+  create_table "spec_types", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "spec_types", force: :cascade do |t|
-    t.string "name"
   end
 
   create_table "specs", force: :cascade do |t|
@@ -35,8 +35,8 @@ ActiveRecord::Schema.define(version: 20160227210934) do
     t.string  "ancestry"
   end
 
-  add_index "specs", ["ancestry"], name: "index_specs_on_ancestry"
-  add_index "specs", ["project_id"], name: "project_id_ix"
+  add_index "specs", ["ancestry"], name: "index_specs_on_ancestry", using: :btree
+  add_index "specs", ["project_id"], name: "project_id_ix", using: :btree
 
   create_table "tag_types", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -52,7 +52,7 @@ ActiveRecord::Schema.define(version: 20160227210934) do
     t.integer  "tag_type_id"
   end
 
-  add_index "tags", ["spec_id"], name: "spec_id_ix"
+  add_index "tags", ["spec_id"], name: "spec_id_ix", using: :btree
 
   create_table "tickets", force: :cascade do |t|
     t.string   "name",       null: false
@@ -62,6 +62,6 @@ ActiveRecord::Schema.define(version: 20160227210934) do
     t.string   "tracker_id"
   end
 
-  add_index "tickets", ["spec_id"], name: "ticket_id_ix"
+  add_index "tickets", ["spec_id"], name: "ticket_id_ix", using: :btree
 
 end

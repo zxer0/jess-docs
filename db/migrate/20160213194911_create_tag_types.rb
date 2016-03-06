@@ -4,8 +4,9 @@ class CreateTagTypes < ActiveRecord::Migration
 
       t.timestamps null: false
       t.column :name, :string
+      t.column :color, :string
     end
     
-    TagType.create :name => 'automated'
+    TagType.create :name => 'automated', :color=> '#0000FF'
   end
 end
