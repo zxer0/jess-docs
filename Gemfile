@@ -24,6 +24,7 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'ancestry', :github => "stefankroes/ancestry", :branch => "2-1-stable"
+gem 'devise'
 
 gem 'bootstrap-sass', '~> 3.2.0'
 gem 'font-awesome-sass', '~> 4.5.0'

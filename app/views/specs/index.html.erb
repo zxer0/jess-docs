@@ -1,9 +1,8 @@
-<p id="notice"><%= notice %></p>
-
 <div class="header">
     <%= render partial: "header" %>
 </div>
-
+<p class="notice hidden"><%= notice %></p>
+<p class="alert hidden"><%= alert %></p>
 <div class="full-spec-list">
     
     <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
