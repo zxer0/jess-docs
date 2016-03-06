@@ -27,7 +27,7 @@ class Spec < ActiveRecord::Base
     end
     
     def closest_older_sibling_id
-        sibling_ids = self.siblings.for_project(self.project.id).map(&:id)
+        sibling_ids = self.siblings.for_project(self.project_id).pluck(:id)
         self_index = sibling_ids.index(self.id)
         if self_index-1 < 0
             return -1

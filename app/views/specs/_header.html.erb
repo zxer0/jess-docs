@@ -47,7 +47,7 @@
        
         <div>
             
-            <%= form_tag filter_project_specs_path, method: :get, class: "form-inline", remote: true do %>
+            <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
                 <label for = "@spec_tag_type_id">Filter by project</label>:
                 <%= collection_select(  :projects, 
                                         :project_id, 
@@ -56,9 +56,9 @@
                                         :name,
                                         {:selected => @selected_project_id},
                                         {class: "form-control",
-                                        id: "project-select"}) %>
-                    <%= button_tag('submit', class: "btn btn-primary") %>
-            <%end%>
+                                        id: "project-select",
+                                        onchange: 'filterProjects()'}) %>
+            <% end %>
         </div>
         
         <div class="filterspecs">
