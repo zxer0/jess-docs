@@ -1,0 +1,31 @@
+<div class="container form-signin">
+  
+  <div class="account-wall">
+    <h2 class='form-signin-heading'>jessdocs 2.0 log in</h2>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name), :html => {class:'form-signin'}) do |f| %>
+      <div class="field">
+        
+        <%= f.email_field :email, autofocus: true, class:'form-control', placeholder: 'email' %>
+      </div>
+    
+      <div class="field">
+        
+        <%= f.password_field :password, autocomplete: "off", class: 'form-control', placeholder: 'password' %>
+      </div>
+    
+      <div class="actions">
+        <%= f.submit "log in", class:"btn btn-lg btn-primary btn-block" %>
+      </div>
+      
+      <% if devise_mapping.rememberable? -%>
+        <div>
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+  <div class='sign-up'>
+    <%= render "devise/shared/links" %>
+  </div>
+</div>
