@@ -18,7 +18,7 @@
                             remote:true,
                             class: "btn btn-default" %>
                 <button type="button" 
-                        class="btn btn-default"
+                        class="btn btn-default hidden"
                         data-toggle="collapse"
                         data-target=".editable"
                         onclick="toggleTagEdit()">
@@ -41,14 +41,14 @@
                 <%= link_to "+ project", 
                             new_project_path,
                             remote: true,
-                            class: "btn btn-default" %>
+                            class: "btn btn-default hidden" %>
             </div>
         </div>
        
         <div>
             
             <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
-                <label for = "@spec_tag_type_id">Filter by project</label>:
+                <label for = "@spec_tag_type_id">project</label>:
                 <%= collection_select(  :projects, 
                                         :project_id, 
                                         @projects, 
