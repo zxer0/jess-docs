@@ -3,19 +3,31 @@
 
 <nav class="navbar navbar-default">
     <div class="navbar-header">
-        <h2>Jessdocs 2.0</h2>
+        <span class="navbar-brand">jessdocs 2.0</span>
     </div>
     <div class="container-fluid">
+        
+        <div class="pull-right">
+            
+            <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
+                
+                <%= collection_select(  :projects, 
+                                        :project_id, 
+                                        @projects, 
+                                        :id, 
+                                        :name,
+                                        {:selected => @selected_project_id},
+                                        {class: "form-control",
+                                        id: "project-select",
+                                        onchange: 'filterProjects()'}) %>
+            <% end %>
+        </div>
         
         <div class="btn-toolbar">
             <div class="btn-group">
                 <%= link_to "add new top-level spec", 
                             new_spec_path(:project_id => @selected_project_id), 
                             remote: true, 
-                            class: "btn btn-default" %>
-                <%= link_to "mass add specs", 
-                            mass_add_view_specs_path,
-                            remote:true,
                             class: "btn btn-default" %>
                 <button type="button" 
                         class="btn btn-default hidden"
@@ -24,6 +36,11 @@
                         onclick="toggleTagEdit()">
                      edit specs
                 </button>
+                <%= link_to "mass add specs", 
+                            mass_add_view_specs_path,
+                            remote:true,
+                            class: "btn btn-default" %>
+                
 
             </div>
             <div class="btn-group">
@@ -45,21 +62,7 @@
             </div>
         </div>
        
-        <div>
-            
-            <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
-                <label for = "@spec_tag_type_id">project</label>:
-                <%= collection_select(  :projects, 
-                                        :project_id, 
-                                        @projects, 
-                                        :id, 
-                                        :name,
-                                        {:selected => @selected_project_id},
-                                        {class: "form-control",
-                                        id: "project-select",
-                                        onchange: 'filterProjects()'}) %>
-            <% end %>
-        </div>
+        
         
         <div class="filterspecs">
             <%= render partial: "tag_types/filter", object: @tag_types, as: :tag_types %>
