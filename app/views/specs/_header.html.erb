@@ -8,19 +8,19 @@
     <div class="container-fluid">
         
         <div class="pull-right navbar-btn">
-            
-            <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
-                
-                <%= collection_select(  :projects, 
-                                        :project_id, 
-                                        @projects, 
-                                        :id, 
-                                        :name,
-                                        {:selected => @selected_project_id},
-                                        {class: "form-control",
-                                        id: "project-select",
-                                        onchange: 'filterProjects()'}) %>
+            <% if user_signed_in? %>
+                <div class="dropdown">
+                  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                    <%= current_user.email %>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><%= link_to('log out', destroy_user_session_path, :method => :delete) %></li>
+                  </ul>
+                </div>
             <% end %>
+            
+        
         </div>
         
         <div class="btn-toolbar navbar-btn">
@@ -64,7 +64,21 @@
        
         
         
-        <div class="filterspecs">
+        <div class="filterspecs navbar-btn">
+            <div class="pull-right">
+                <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
+                
+                <%= collection_select(  :projects, 
+                                        :project_id, 
+                                        @projects, 
+                                        :id, 
+                                        :name,
+                                        {:selected => @selected_project_id},
+                                        {class: "form-control",
+                                        id: "project-select",
+                                        onchange: 'filterProjects()'}) %>
+            <% end %>
+            </div>
             <%= render partial: "tag_types/filter", object: @tag_types, as: :tag_types %>
         </div>
     </div>
