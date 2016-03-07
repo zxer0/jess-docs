@@ -1,0 +1,41 @@
+<div class="modal-dialog modal-sm">
+
+  <div class="modal-content">
+    
+    <%= form_for @user, remote: true do |f| %>
+      <div class="modal-body">
+        
+        <% if @user.errors.any? %>
+          <div class="alert alert-danger form-group" role="alert">
+            <ul>
+            <% @user.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+            </ul>
+          </div>
+        <% end %>
+
+        <div class="form-group form-inline">
+          
+          <div>
+            <%= @user.email %>
+          </div>
+          <div>
+            <%= f.collection_radio_buttons :role_id, 
+                                        @roles, 
+                                        :id, 
+                                        :name,
+                                        {},
+                                        {selected: @user.role_id}%>
+          </div>
+        </div>
+        
+      </div>
+      
+      <div class="modal-footer">
+        <%= link_to "cancel", "#", class: "btn", data: {dismiss: "modal"} %>
+        <%= f.submit class: "btn btn-primary" %>
+      </div>
+    <% end %>
+  </div>
+</div>
