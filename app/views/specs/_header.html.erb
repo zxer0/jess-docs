@@ -15,7 +15,11 @@
                     <span class="caret"></span>
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <% if current_user.admin? %>
+                        <li><%= link_to('manage users', users_path, remote: true) %></li>
+                    <% end %>
                     <li><%= link_to('log out', destroy_user_session_path, :method => :delete) %></li>
+                    
                   </ul>
                 </div>
             <% end %>

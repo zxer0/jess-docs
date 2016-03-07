@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   devise_for :users
   root 'specs#index'
+  
+  scope "/admin" do
+    resources :users
+  end
+  
   resources :tickets
   resources :projects
   resources :tag_types
