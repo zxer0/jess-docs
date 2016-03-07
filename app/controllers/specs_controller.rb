@@ -9,7 +9,11 @@ class SpecsController < ApplicationController
                                           :create,
                                           :dedent,
                                           :indent]
-  
+  before_action :can_edit, only: [  :index,
+                                    :filter_project,
+                                    :filter_tag,
+                                    :indent,
+                                    :dedent]
   # GET /specs
   # GET /specs.json
   def index
@@ -262,6 +266,10 @@ class SpecsController < ApplicationController
     def initialize_tags
       @tag_hash = tag_hash
       @ticket_hash = ticket_hash
+    end
+    
+    def can_edit
+      @can_edit = current_user.can_edit?
     end
     
     def get_spec_hash(spec_scope)
