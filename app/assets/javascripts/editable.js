@@ -6,15 +6,20 @@ $(document).ready(function () {
     });  
     
     $(document).on('click','.edit-button', function(){
+        
+        
+        
+        
         var btnElem = $(this).parent().next('.spec-buttons').first();
+        $('.spec-buttons').not(btnElem).hide();
+        btnElem.toggle('fast');
         
-        btnElem.collapse('toggle');
         var tagElem = $(this).siblings('.tags').find('.delete_tag');
-        
-        toggleEdit(tagElem);
-        
         var ticketElem = $(this).siblings('.tickets').find('.delete_tag');
-        toggleEdit(ticketElem)
+        
+        $('.delete_tag').not(tagElem.add(ticketElem)).hide();
+        tagElem.toggle('fast');
+        ticketElem.toggle('fast');
     });
     
 });

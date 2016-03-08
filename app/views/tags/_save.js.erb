@@ -7,5 +7,5 @@ $("ul.errors").html("")
   var tagElem = $("#<%=@tag.spec.id%> span.tags");
   $("#spec-modal").modal("hide");
   tagElem.append("<%= j(render partial: "tags/show", object: @tag.to_hash, as: :tag) %>");
-  $('#<%=@tag.spec.id%> .<%=@tag.id%> .delete_tag').removeClass('hidden');
+  $('#<%=@tag.spec.id%> .<%=@tag.id%> .delete_tag').show();
 <% end %>
