@@ -1,6 +1,7 @@
 class SpecsController < ApplicationController
   # before_action :set_spec, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_user!
+  
+  
   before_action :initialize_tags, only: [ :index, 
                                           :filter_project, 
                                           :filter_tag, 
@@ -9,14 +10,28 @@ class SpecsController < ApplicationController
                                           :create,
                                           :dedent,
                                           :indent]
-  before_action :can_edit, only: [  :index,
-                                    :filter_project,
-                                    :filter_tag,
-                                    :indent,
-                                    :dedent]
+  before_action :can_view_edit_buttons, only: [ :index,
+                                                :filter_project,
+                                                :filter_tag,
+                                                :indent,
+                                                :dedent]
+  
+  
+  before_action :can_edit, only: [:new,
+                                  :create,
+                                  :edit,
+                                  :update,
+                                  :mass_add_view,
+                                  :mass_add,
+                                  :delete,
+                                  :destroy]
+                                  
+  
   # GET /specs
   # GET /specs.json
   def index
+    @can_view = can_view
+    
     @filtered_spec_ids = Spec.pluck(:id)
     @projects = Project.all
     @selected_project_id = params[:project_id] || Project.first.id
@@ -268,8 +283,21 @@ class SpecsController < ApplicationController
       @ticket_hash = ticket_hash
     end
     
-    def can_edit
+    def can_view
+      current_user.can_view?
+      # unless current_user.can_view?
+      #   render(:file => File.join(Rails.root, 'public/403'), :formats => [:html], :status => 403, :layout => false)
+      # end
+    end
+    
+    def can_view_edit_buttons
       @can_edit = current_user.can_edit?
+    end
+    
+    def can_edit
+      unless current_user.can_edit?
+        raise ActionController::RoutingError.new('Forbidden')
+      end
     end
     
     def get_spec_hash(spec_scope)

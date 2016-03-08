@@ -1,3 +1,4 @@
+<% if @can_view %>
 <div class="header">
     <%= render partial: "header" %>
 </div>
@@ -13,3 +14,7 @@
 </div>
 
 <div id="spec-modal" class="modal fade"></div>
+<% else %>
+<p>this is my crappy 'you don't have access' page</p>
+<%= link_to('log out', destroy_user_session_path, :method => :delete) %>
+<% end %>

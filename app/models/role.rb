@@ -12,4 +12,8 @@ class Role < ActiveRecord::Base
     def self.view_only
         find_by!(:name => 'view_only')
     end
+    
+    def self.none
+        find_by!(:name => 'none')
+    end
 end

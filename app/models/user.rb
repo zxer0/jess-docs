@@ -8,8 +8,12 @@ class User < ActiveRecord::Base
   
   before_create :set_default_role
   
+  def can_view?
+    self.role_id != Role.none.id
+  end
+  
   def can_edit?
-    self.role_id != Role.view_only.id
+    self.role_id != Role.view_only.id && self.role_id != Role.none.id
   end
   
   def admin?
@@ -18,6 +22,6 @@ class User < ActiveRecord::Base
   
   private
     def set_default_role
-      self.role ||= Role.view_only
+      self.role ||= Role.none
     end
 end
