@@ -13,6 +13,8 @@ class SpecsController < ApplicationController
   before_action :can_view_edit_buttons, only: [ :index,
                                                 :filter_project,
                                                 :filter_tag,
+                                                :mass_add,
+                                                :create,
                                                 :indent,
                                                 :dedent]
   
