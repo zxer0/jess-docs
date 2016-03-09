@@ -1,4 +1,5 @@
 $('.indent_spec').bind('ajax:success', function() {
+    $('.s<%=@spec.id%> [data-toggle="tooltip"]').tooltip('destroy');
     $('.s<%=@spec.id%>').fadeOut();
     $('.s<%=@spec.id%>').remove();
     

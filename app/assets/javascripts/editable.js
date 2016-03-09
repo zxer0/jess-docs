@@ -5,14 +5,15 @@ $(document).ready(function () {
         $('.edit-button', this).css('visibility','hidden');
     });  
     
+    
+    
     $(document).on('click','.edit-button', function(){
-        
-        
-        
-        
+
         var btnElem = $(this).parent().next('.spec-buttons').first();
         $('.spec-buttons').not(btnElem).hide();
+        
         btnElem.toggle('fast');
+        btnElem.find('[data-toggle="tooltip"]').tooltip();
         
         var tagElem = $(this).siblings('.tags').find('.delete_tag');
         var ticketElem = $(this).siblings('.tickets').find('.delete_tag');
