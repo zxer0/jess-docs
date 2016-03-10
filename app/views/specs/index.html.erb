@@ -4,6 +4,12 @@
 </div>
 <p class="notice hidden"><%= notice %></p>
 <p class="alert hidden"><%= alert %></p>
+<div class="center">
+    <div class="sk-wandering-cubes spinner">
+        <div class="sk-cube sk-cube1"></div>
+        <div class="sk-cube sk-cube2"></div>
+    </div>
+</div>
 <div class="full-spec-list">
     
     <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
