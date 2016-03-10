@@ -63,7 +63,7 @@ class SpecsController < ApplicationController
   end
   
   def filter_tag
-    project_id = params[:project_id]
+    project_id = params[:projects][:project_id]
     @tag_types = TagType.all
     @project = Project.find(project_id)
     

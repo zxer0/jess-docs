@@ -69,20 +69,7 @@
     </div>
     <div class="container-fluid">
         <div class="filterspecs navbar-btn">
-            <div class="pull-right">
-                <%= form_tag filter_project_specs_path, method: :get, remote: true, class: "form-inline filter-project" do %>
-                
-                <%= collection_select(  :projects, 
-                                        :project_id, 
-                                        @projects, 
-                                        :id, 
-                                        :name,
-                                        {:selected => @selected_project_id},
-                                        {class: "form-control",
-                                        id: "project-select",
-                                        onchange: 'filterProjects()'}) %>
-            <% end %>
-            </div>
+            
             <%= render partial: "tag_types/filter", object: @tag_types, as: :tag_types %>
         </div>
     </div>

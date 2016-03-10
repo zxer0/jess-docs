@@ -31,3 +31,8 @@ function filterProjects() {
     
     $('.filter-project').submit();
 }
+
+function filter() {
+    $.xhrPool.abortAll();
+    $('#tag-form').submit();
+}

@@ -2,14 +2,27 @@
     
     <label class="label label-default tag ticket tag-checkbox">
         ticketed
-        <%= check_box_tag 'ticketed', 'true', false, {onclick: 'addProject()', class:"checkbox"} %>
+        <%= check_box_tag 'ticketed', 'true', false, {onclick: 'filter()', class:"checkbox"} %>
     </label>  
     
     <% tag_types.each do |tag_type| %>
         <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
             <%= tag_type.name %>
-            <%= check_box_tag 'tag_types[]', tag_type.id, false, {onclick: 'addProject()', class:"checkbox"} %>
+            <%= check_box_tag 'tag_types[]', tag_type.id, false, {onclick: 'filter()', class:"checkbox"} %>
         </label>
     <% end %>
-    
+    <div class="pull-right">
+                
+                
+        <%= collection_select(  :projects, 
+                                :project_id, 
+                                @projects, 
+                                :id, 
+                                :name,
+                                {:selected => @selected_project_id},
+                                {class: "form-control",
+                                id: "project-select",
+                                onchange: 'filter()'}) %>
+            
+    </div>
 <% end %>
