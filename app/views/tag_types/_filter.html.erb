@@ -2,13 +2,13 @@
     
     <label class="label label-default tag ticket tag-checkbox">
         ticketed
-        <%= check_box_tag 'ticketed', 'true', false, {onclick: 'filter()', class:"checkbox"} %>
+        <%= check_box_tag 'ticketed', 'true', @ticketed, {onclick: 'filter()', class:"checkbox"} %>
     </label>  
     
     <% tag_types.each do |tag_type| %>
         <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
             <%= tag_type.name %>
-            <%= check_box_tag 'tag_types[]', tag_type.id, false, {onclick: 'filter()', class:"checkbox"} %>
+            <%= check_box_tag 'tag_types[]', tag_type.id, @tag_type_ids && @tag_type_ids.include?(tag_type.id.to_s), {onclick: 'filter()', class:"checkbox"} %>
         </label>
     <% end %>
     <div class="pull-right">

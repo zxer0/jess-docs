@@ -31,39 +31,65 @@ class SpecsController < ApplicationController
   
   # GET /specs
   # GET /specs.json
+  # def index
+  #   @can_view = can_view
+    
+  #   @filtered_spec_ids = Spec.pluck(:id)
+  #   @projects = Project.all
+  #   @selected_project_id = params[:project_id] || Project.first.id
+  
+  #   @specs = get_spec_hash(Spec.for_project(@selected_project_id))
+    
+  #   @tag_types = TagType.all
+    
+  # end
+  
   def index
     @can_view = can_view
-    
-    @filtered_spec_ids = Spec.pluck(:id)
-    @projects = Project.all
-    @selected_project_id = params[:project_id] || Project.first.id
-  
-    @specs = get_spec_hash(Spec.for_project(@selected_project_id))
-    
-    @tag_types = TagType.all
-    
-  end
-  
-  def filter_project
-    @projects = Project.all
-    # filtered_specs = Spec.all
-    
-    # if filter_params.any?
-    @selected_project_id = filter_project_params[:project_id] || Projects.first.id
-    @project = Project.find(@selected_project_id)
-    
-    # filtered_specs = Spec.filter_by_project(@selected_project_id)
-    
-    @specs = get_spec_hash(Spec.for_project(@selected_project_id))
-    
-    respond_to do |format|
-      format.html
-      format.js { render :layout => false }
+    if params[:projects]
+      project_id = params[:projects][:project_id]
+    else
+      project_id = Project.first.id
     end
+    @tag_types = TagType.all
+    @project = Project.find(project_id)
+    
+    @specs = get_spec_hash(Spec.for_project(project_id))
+    
+    @projects = Project.all
+    
+    @filtered_spec_ids_array = []
+    
+    
+    @tag_type_ids = params[:tag_types]
+    
+    if @tag_type_ids
+      @tag_type_ids.each do |tag_type_id|
+        # @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
+        @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).with_tag_type(tag_type_id))
+      end
+    end
+    
+    @ticketed = params[:ticketed]
+    if @ticketed
+      @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).has_ticket)
+    end
+    
+    @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
+    
+    if @filtered_spec_ids
+      @filtered_spec_ids.uniq!
+    end
+    
   end
   
   def filter_tag
-    project_id = params[:projects][:project_id]
+    @can_view = can_view
+    if params[:projects]
+      project_id = params[:projects][:project_id]
+    else
+      project_id = Project.first.id
+    end
     @tag_types = TagType.all
     @project = Project.find(project_id)
     
