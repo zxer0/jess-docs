@@ -10,20 +10,22 @@
         <div class="sk-cube sk-cube2"></div>
     </div>
 </div>
-<ul>
-    <div class="bookmarks">
-        <%= render partial: "bookmarks", collection: @bookmarks, as: :spec %>
+<div class="container-fluid">
+    <div class="col-sm-2 col-md-1 sidebar">
+        <div class="bookmarks">
+            <%= render partial: "bookmarks", object: @bookmarks, as: :bookmarks %>
+        </div>
     </div>
-</ul>
-<div class="full-spec-list">
     
-    <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
-        <p>There are no specs currently in the system</p>
-    <% else %>
-        <%= render partial: "specs", collection: @specs, as: :spec %>
-    <% end %>
+    <div class="full-spec-list col-sm-10 col-md-11 main">
+        
+        <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
+            <p>There are no specs currently in the system</p>
+        <% else %>
+            <%= render partial: "specs", collection: @specs, as: :spec %>
+        <% end %>
+    </div>
 </div>
-
 <div id="spec-modal" class="modal fade"></div>
 <% else %>
 <p>this is my crappy 'you don't have access' page</p>

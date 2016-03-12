@@ -4,5 +4,5 @@
     $('.full-spec-list').html('<p>There are no specs in the project <strong><%= @project.name %></strong> tagged <%= j (render partial: 'tag_types/listhorizontal', collection: @tag_type_ids, as: :tag_type_id ) %></p>')
 <% else %>
     $('.full-spec-list').html('<%= j (render partial: 'specs', collection: @specs, as: :spec) %>')
-    $('.bookmarks').html("<%= j(render partial: "bookmarks", collection: @bookmarks, as: :spec) %>")
+    $('.bookmarks').html("<%= j(render partial: "bookmarks", object: @bookmarks, as: :bookmarks) %>")
 <% end %>

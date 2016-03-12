@@ -1,3 +1,8 @@
-<% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec["id"])) %>
-    <li><a href="#<%= spec["id"] %>"><%= spec["description"] %></a></li>
+<% if bookmarks.any? %>
+<p class="sidebar-header">bookmarks</p>
+<% end %>
+<% bookmarks.each do |spec| %>
+    <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec["id"])) %>
+        <p><a href="#<%= spec["id"] %>"><%= spec["description"] %></a></p>
+    <% end %>
 <% end %>
