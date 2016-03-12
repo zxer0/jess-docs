@@ -28,12 +28,12 @@
           
         <% if @parent.nil? %>
           <div class="form-group">
-             <%= collection_select( :project, 
-                                    :id, 
+             <%= collection_select( :projects, 
+                                    :project_id, 
                                     @projects, 
                                     :id, 
                                     :name, 
-                                    {},
+                                    {:selected => @selected_project_id},
                                     { class: "form-control"}) %>
           </div>
         <% else %>
@@ -49,7 +49,7 @@
             
             <%= fields_for :project, @spec do |p| %>
               <%= p.hidden_field :parent_id, value: @parent.id %>
-              <%= p.hidden_field :id, value: @parent.project.id %>
+              <%= p.hidden_field :id, value: @selected_project_id %>
             <% end %>
           <% end %>
         </div>

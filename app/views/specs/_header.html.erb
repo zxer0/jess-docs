@@ -44,7 +44,7 @@
                          edit specs
                     </button>
                     <%= link_to "mass add specs", 
-                                mass_add_view_specs_path,
+                                mass_add_view_specs_path(:projects =>{:project_id => @selected_project_id}),
                                 remote:true,
                                 class: "btn btn-default" %>
                     

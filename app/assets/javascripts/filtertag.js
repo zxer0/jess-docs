@@ -20,3 +20,7 @@ function filter() {
     history.pushState(null, "", formParams);
     formElem.submit();
 }
+
+function getProjectId(){
+    return $('#project-select').val();
+}

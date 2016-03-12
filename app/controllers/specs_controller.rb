@@ -45,81 +45,11 @@ class SpecsController < ApplicationController
   # end
   
   def index
-    @can_view = can_view
-    if params[:projects]
-      project_id = params[:projects][:project_id]
-    else
-      project_id = Project.first.id
-    end
-    @tag_types = TagType.all
-    @project = Project.find(project_id)
-    
-    @specs = get_spec_hash(Spec.for_project(project_id))
-    
-    @projects = Project.all
-    
-    @filtered_spec_ids_array = []
-    
-    
-    @tag_type_ids = params[:tag_types]
-    
-    if @tag_type_ids
-      @tag_type_ids.each do |tag_type_id|
-        # @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
-        @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).with_tag_type(tag_type_id))
-      end
-    end
-    
-    @ticketed = params[:ticketed]
-    if @ticketed
-      @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).has_ticket)
-    end
-    
-    @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
-    
-    if @filtered_spec_ids
-      @filtered_spec_ids.uniq!
-    end
-    
+    filter_view
   end
   
   def filter_tag
-    @can_view = can_view
-    if params[:projects]
-      project_id = params[:projects][:project_id]
-    else
-      project_id = Project.first.id
-    end
-    @tag_types = TagType.all
-    @project = Project.find(project_id)
-    
-    @specs = get_spec_hash(Spec.for_project(project_id))
-    
-    @projects = Project.all
-    
-    @filtered_spec_ids_array = []
-    
-    
-    @tag_type_ids = params[:tag_types]
-    
-    if @tag_type_ids
-      @tag_type_ids.each do |tag_type_id|
-        # @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
-        @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).with_tag_type(tag_type_id))
-      end
-    end
-    
-    @ticketed = params[:ticketed]
-    if @ticketed
-      @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).has_ticket)
-    end
-    
-    @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
-    
-    if @filtered_spec_ids
-      @filtered_spec_ids.uniq!
-    end
-    
+    filter_view
     respond_to do |format|
       format.html
       format.js { render :layout => false }
@@ -215,6 +145,12 @@ class SpecsController < ApplicationController
   def mass_add_view
     @projects = Project.all
     
+    path = request.original_url
+    more_params = Rack::Utils.parse_nested_query(path)
+    puts "more_params = #{more_params}"
+    
+    @selected_project_id = params[:projects][:project_id]
+    
     if params[:id]
       @parent_id = params[:id]
       @parent = Spec.find(@parent_id)
@@ -229,14 +165,17 @@ class SpecsController < ApplicationController
   #POST /specs/mass_add
   def mass_add
     # @projects = Project.all
-    parent_id = params[:project][:parent_id]
-    @current_project_id = params[:project][:id]
     
-    Spec.parse_block(params[:text], @current_project_id, parent_id)
+    
+    parent_id = params[:projects][:parent_id]
+    @selected_project_id = params[:projects][:project_id]
+    
+    Spec.parse_block(params[:text], @selected_project_id, parent_id)
+    filter_view
     # @specs = Spec.for_project(params[:project][:id]).roots
     
-    @print_specs_hash = get_spec_hash(Spec.for_project(@current_project_id))
-    # redirect_to :action => 'index'
+    # @print_specs_hash = get_spec_hash(Spec.for_project(@current_project_id))
+    redirect_to filter_tag_specs_path(:project_id => @selected_project_id)
   end
 
   #POST /specs/:spec_id/indent
@@ -325,6 +264,44 @@ class SpecsController < ApplicationController
     def can_edit
       unless current_user.can_edit?
         raise ActionController::RoutingError.new('Forbidden')
+      end
+    end
+    
+    def filter_view
+      @can_view = can_view
+      if params[:projects]
+        @selected_project_id = params[:projects][:project_id]
+      else
+        @selected_project_id = Project.first.id
+      end
+      @tag_types = TagType.all
+      @project = Project.find(@selected_project_id)
+      
+      @specs = get_spec_hash(Spec.for_project(@selected_project_id))
+      
+      @projects = Project.all
+      
+      @filtered_spec_ids_array = []
+      
+      
+      @tag_type_ids = params[:tag_types]
+      
+      if @tag_type_ids
+        @tag_type_ids.each do |tag_type_id|
+          # @filtered_spec_ids_array << Spec.filter_by_tag_type(tag_type_id, @project_specs).map(&:id).uniq
+          @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).with_tag_type(tag_type_id))
+        end
+      end
+      
+      @ticketed = params[:ticketed]
+      if @ticketed
+        @filtered_spec_ids_array << Spec.all_ancestry_ids(Spec.for_project(@project.id).has_ticket)
+      end
+      
+      @filtered_spec_ids = @filtered_spec_ids_array.inject(:&)
+      
+      if @filtered_spec_ids
+        @filtered_spec_ids.uniq!
       end
     end
     

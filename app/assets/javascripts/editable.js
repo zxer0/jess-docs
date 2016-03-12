@@ -23,6 +23,10 @@ $(document).ready(function () {
         ticketElem.toggle('fast');
     });
     
+    $(document).on("ajax:success", "form", function() {
+        $("#spec-modal").modal("hide");
+    });
+    
 });
 
 function toggleTagEdit() {
