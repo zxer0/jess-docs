@@ -10,6 +10,11 @@
         <div class="sk-cube sk-cube2"></div>
     </div>
 </div>
+<ul>
+    <div class="bookmarks">
+        <%= render partial: "bookmarks", collection: @bookmarks, as: :spec %>
+    </div>
+</ul>
 <div class="full-spec-list">
     
     <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>

@@ -1,6 +1,13 @@
 <div class="btn-toolbar">
     <span class="btn-group btn-group-xs" role="group">
         <%= link_to '', 
+                    spec_bookmark_path(:spec_id => spec[:id]), 
+                    method: :post,
+                    remote:true, 
+                    :data => {:toggle => "tooltip", :placement => 'bottom', :container => 'body'},
+                    class: "btn btn-default fa fa-bookmark",
+                    :title => 'bookmark'%>
+        <%= link_to '', 
                     new_tag_path(:id => spec[:id]), 
                     remote:true, 
                     :data => {:toggle => "tooltip", :placement => 'bottom', :container => 'body'},

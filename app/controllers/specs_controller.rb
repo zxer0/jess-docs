@@ -177,6 +177,14 @@ class SpecsController < ApplicationController
     # @print_specs_hash = get_spec_hash(Spec.for_project(@current_project_id))
     redirect_to filter_tag_specs_path(:project_id => @selected_project_id)
   end
+  
+  def bookmark
+    @spec = Spec.find(params[:spec_id])
+    bookmarked = @spec.bookmarked
+    @spec.update!(:bookmarked => !bookmarked)
+    project_id = @spec.project_id
+    @bookmarks = Spec.for_project(project_id).where(:bookmarked => true).order(created_at: :asc).to_a.map(&:serializable_hash)
+  end
 
   #POST /specs/:spec_id/indent
   def indent
@@ -276,6 +284,8 @@ class SpecsController < ApplicationController
       end
       @tag_types = TagType.all
       @project = Project.find(@selected_project_id)
+      
+      @bookmarks = Spec.for_project(@selected_project_id).where(:bookmarked => true).order(created_at: :asc).to_a.map(&:serializable_hash)
       
       @specs = get_spec_hash(Spec.for_project(@selected_project_id))
       

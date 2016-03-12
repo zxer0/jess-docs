@@ -1,0 +1,3 @@
+<% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec["id"])) %>
+    <li><a href="#<%= spec["id"] %>"><%= spec["description"] %></a></li>
+<% end %>

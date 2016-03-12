@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     post 'indent'
     post 'dedent'
     get 'delete'
+    post 'bookmark'
     collection do
       get 'mass_add_view'
       post 'mass_add'
