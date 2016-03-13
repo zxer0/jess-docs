@@ -33,8 +33,8 @@
                                     @projects, 
                                     :id, 
                                     :name, 
-                                    {:selected => @selected_project_id},
-                                    { class: "form-control"}) %>
+                                    {:selected => 1},
+                                    { class: "form-control project-select"}) %>
           </div>
         <% else %>
           <div class="well well-sm">
@@ -47,9 +47,9 @@
           
           <% if !@parent.nil? %>
             
-            <%= fields_for :project, @spec do |p| %>
+            <%= fields_for :projects, @spec do |p| %>
               <%= p.hidden_field :parent_id, value: @parent.id %>
-              <%= p.hidden_field :id, value: @selected_project_id %>
+              <%= p.hidden_field :project_id, value: @parent.project_id %>
             <% end %>
           <% end %>
         </div>

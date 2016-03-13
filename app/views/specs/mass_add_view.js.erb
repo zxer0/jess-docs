@@ -1,4 +1,5 @@
 $("#spec-modal").html("<%= j(render 'mass_add_view') %>")
+$('.project-select').val($('#project-select').val());
 $("#spec-modal").modal("show")
 
 $('#mass-submit').on('click', function() {

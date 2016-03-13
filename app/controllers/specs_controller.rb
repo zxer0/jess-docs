@@ -145,11 +145,7 @@ class SpecsController < ApplicationController
   def mass_add_view
     @projects = Project.all
     
-    path = request.original_url
-    more_params = Rack::Utils.parse_nested_query(path)
-    puts "more_params = #{more_params}"
-    
-    @selected_project_id = params[:projects][:project_id]
+    # @selected_project_id = params[:projects][:project_id]
     
     if params[:id]
       @parent_id = params[:id]
