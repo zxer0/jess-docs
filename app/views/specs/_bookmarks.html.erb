@@ -1,8 +1,12 @@
 <% if bookmarks.any? %>
-<p class="sidebar-header">bookmarks</p>
-<% end %>
-<% bookmarks.each do |spec| %>
-    <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec["id"])) %>
-        <p><a href="#<%= spec["id"] %>"><%= spec["description"] %></a></p>
-    <% end %>
+    <div class="list-group-item">
+        <h4 class="list-group-item-heading">bookmarks</h4>
+        <div class="list-group-item-text">
+            <% bookmarks.each do |spec| %>
+                <% if (@filtered_spec_ids.nil? || @filtered_spec_ids.include?(spec["id"])) %>
+                    <p><a href="#<%= spec["id"] %>"><%= spec["description"] %></a></p>
+                <% end %>
+            <% end %>
+        </div>
+    </div>
 <% end %>

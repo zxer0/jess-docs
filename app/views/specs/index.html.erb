@@ -11,13 +11,14 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="col-sm-2 col-md-1 sidebar">
-        <div class="bookmarks">
-            <%= render partial: "bookmarks", object: @bookmarks, as: :bookmarks %>
-        </div>
+    <div class="col-sm-2 sidebar">
+        <% if current_user.can_edit? %>
+            <%= render partial: "sidebarbtns" %>
+        <% end %>
+
     </div>
     
-    <div class="full-spec-list col-sm-10 col-md-11 main">
+    <div class="full-spec-list col-sm-10 main">
         
         <% if @specs.blank? || (!@filtered_spec_ids.nil? && @filtered_spec_ids.count == 0) %>
             <p>There are no specs currently in the system</p>
