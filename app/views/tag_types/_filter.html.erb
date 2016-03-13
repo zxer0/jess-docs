@@ -1,17 +1,18 @@
 <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", id: 'tag-form', remote: true do %>
-    
-    <label class="label label-default tag ticket tag-checkbox">
-        ticketed
-        <%= check_box_tag 'ticketed', 'true', @ticketed, {onclick: 'filter()', class:"checkbox"} %>
-    </label>  
-    
-    <% tag_types.each do |tag_type| %>
-        <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
-            <%= tag_type.name %>
-            <%= check_box_tag 'tag_types[]', tag_type.id, @tag_type_ids && @tag_type_ids.include?(tag_type.id.to_s), {onclick: 'filter()', class:"checkbox"} %>
-        </label>
-    <% end %>
-    <div class="pull-right">
+    <div class="col-md-11">
+        <label class="label label-default tag ticket tag-checkbox">
+            ticketed
+            <%= check_box_tag 'ticketed', 'true', @ticketed, {onclick: 'filter()', class:"checkbox"} %>
+        </label>  
+        
+        <% tag_types.each do |tag_type| %>
+            <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
+                <%= tag_type.name %>
+                <%= check_box_tag 'tag_types[]', tag_type.id, @tag_type_ids && @tag_type_ids.include?(tag_type.id.to_s), {onclick: 'filter()', class:"checkbox"} %>
+            </label>
+        <% end %>
+    </div>
+    <div class="col-md-1 project-select-div">
                 
                 
         <%= collection_select(  :projects, 
@@ -20,7 +21,7 @@
                                 :id, 
                                 :name,
                                 {:selected => @selected_project_id},
-                                {class: "form-control",
+                                {class: "form-control pull-right",
                                 id: "project-select",
                                 onchange: 'filter()'}) %>
             
