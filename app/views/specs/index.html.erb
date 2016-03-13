@@ -12,7 +12,7 @@
 </div>
 <div class="container-fluid">
     <div class="col-sm-2 sidebar">
-        <% if current_user.can_edit? %>
+        <% if current_user.can_edit? || @bookmarks.any? %>
             <%= render partial: "sidebarbtns" %>
         <% end %>
 
