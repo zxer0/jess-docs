@@ -27,25 +27,22 @@ class TagsController < ApplicationController
   # POST /tags
   # POST /tags.json
   def create
-    @tag = Tag.new(tag_params)
+    @spec = Spec.find(params[:spec_id])
+    @tags = @spec.tags
+    @tag_types = TagType.all
     
-    if @tag.save
-      # redirect_to '/specs'
-      # @tag_array = tag_array(@tag.spec_id)
+    unless params[:tag_types]
+      @tags.destroy_all
     else
-      redirect_to :action => 'new', :id => tag_params[:spec_id]
+      current_tag_types = @tags.pluck(:tag_type_id)
+      tag_types_to_delete = current_tag_types - params[:tag_types]
+      tag_types_to_add = params[:tag_types] - current_tag_types
+      @tags.where(:tag_type_id => tag_types_to_delete).destroy_all
+      tag_types_to_add.each do |tag_type|
+        Tag.create!(:spec_id => @spec.id, :tag_type_id => tag_type)
+      end
     end
-    
-    # respond_to do |format|
-    #   if @tag.save
-    #     format.html { redirect_to '/specs'}
-    #     format.json { render :show, status: :created, location: @tag }
-    #   else
-    #     format.html { redirect_to '/tags/new', :id => 3}
-    #     # format.html { render :action => 'new', :id => tag_params[:spec_id] }
-    #     # format.json { render json: @tag.errors, status: :unprocessable_entity }
-    #   end
-    # end
+    @new_tags_hash = @spec.tags ? @spec.tags.to_a.map(&:to_hash) : nil
   end
 
   # PATCH/PUT /tags/1

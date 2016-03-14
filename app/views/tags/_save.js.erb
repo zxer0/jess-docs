@@ -1,11 +1,4 @@
-$("ul.errors").html("")
-<% if @tag.errors.any? %>
-  <% @tag.errors.full_messages.each do |message| %>
-    $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
-  <% end %>
-<% else %>
-  var tagElem = $("#<%=@tag.spec.id%> span.tags");
-  $("#spec-modal").modal("hide");
-  tagElem.append("<%= j(render partial: "tags/show", object: @tag.to_hash, as: :tag) %>");
-  $('#<%=@tag.spec.id%> .<%=@tag.id%> .delete_tag').show();
-<% end %>
+var tagElem = $("#<%=@spec.id%> span.tags");
+$("#spec-modal").modal("hide");
+tagElem.html("<%= j(render partial: "tags/show", collection: @new_tags_hash, as: :tag) %>");
+$('#<%=@spec.id%> .delete_tag').show();
