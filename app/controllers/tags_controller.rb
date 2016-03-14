@@ -17,6 +17,7 @@ class TagsController < ApplicationController
     @tag = Tag.new
     @tag_types = TagType.all
     @spec = Spec.find(params[:id])
+    @spec_tags = @spec.tags.pluck(:tag_type_id)
   end
 
   # GET /tags/1/edit

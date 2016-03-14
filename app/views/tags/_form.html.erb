@@ -2,25 +2,27 @@
 
   <div class="modal-content">
 
-    <%= form_for @tag, remote: true  do |f| %>
+    <%= form_tag tags_path, method: :post, remote: true  do |f| %>
       <div class="modal-body">
         <ul class="errors"></ul>
 
         <div class="form-group">
-          <%= f.collection_select :tag_type_id, 
-                @tag_types, 
-                :id, 
-                :name, 
-                {},
-                {class: "form-control"} %>
-          <%= f.hidden_field :spec_id, value: @spec.id %>
+          
+          <% @tag_types.each do |tag_type| %>
+            <label class="label label-default tag tag-checkbox" style="background-color: <%= tag_type.color %>">
+                <%= tag_type.name %>
+                <%= check_box_tag 'tag_types[]', tag_type.id, @spec_tags && @spec_tags.include?(tag_type.id), {onclick: 'filter()', class:"checkbox"} %>
+            </label>
+          <% end %>
+          
+          <%= hidden_field_tag :spec_id, value: @spec.id %>
         </div>
        
       </div>
       
       <div class="modal-footer">
         <%= link_to 'cancel', "#", class: "btn", data: {dismiss: "modal"} %>
-        <%= f.submit 'tag spec', class: "btn btn-primary" %>
+        <%= submit_tag 'tag spec', class: "btn btn-primary" %>
       </div>
     <% end %>
   </div>
