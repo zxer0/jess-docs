@@ -33,9 +33,35 @@
         
     </div>
     <div class="container-fluid">
-        <div class="filterspecs navbar-btn">
+        
+        <%= form_tag filter_tag_specs_path, method: :get, class: "form-inline", id: 'tag-form', remote: true do %>
             
-            <%= render partial: "tag_types/filter", object: @tag_types, as: :tag_types %>
-        </div>
+            <div class="col-md-11">
+                <label class="label label-default tag ticket tag-checkbox">
+                    ticketed
+                    <%= check_box_tag 'ticketed', 'true', @ticketed, {onclick: 'filter()', class:"checkbox"} %>
+                </label>  
+                
+                <span class="filterspecs navbar-btn">
+                    
+                    <%= render partial: "tag_types/filter", object: @tag_types, as: :tag_types %>
+                </span>
+                
+            </div>
+            <div class="col-md-1 project-select-div">
+                
+                
+                <%= collection_select(  :projects, 
+                                        :project_id, 
+                                        @projects, 
+                                        :id, 
+                                        :name,
+                                        {:selected => @selected_project_id},
+                                        {class: "form-control pull-right",
+                                        id: "project-select",
+                                        onchange: 'filter()'}) %>
+            
+            </div>
+        <% end %>
     </div>
 </nav>
