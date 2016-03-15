@@ -1,0 +1,10 @@
+<% if requests && requests.any? %>
+    <div class="panel panel-danger">
+        <div class="panel-heading">
+            <h3 class="panel-title">requests</h3>
+        </div>
+         <div class="panel-body">
+            <%= render partial: "requests/show", collection: requests, as: :request %>
+        </div>
+    </div>
+<% end %>

@@ -15,7 +15,6 @@
         <% if current_user.can_edit? || @bookmarks.any? %>
             <%= render partial: "sidebarbtns" %>
         <% end %>
-
     </div>
     
     <div class="full-spec-list col-xs-8 col-md-9 col-lg-10 main">
@@ -29,6 +28,15 @@
 </div>
 <div id="spec-modal" class="modal fade"></div>
 <% else %>
-<p>this is my crappy 'you don't have access' page</p>
-<%= link_to('log out', destroy_user_session_path, :method => :delete) %>
+    <div class="container-fluid">
+        <p>this is my crappy 'you don't have access' page</p>
+        <div class="roleless-user-action">
+            <% if current_user.request.nil? %>
+                <%= link_to 'request access', requests_path(:request => {:user_id => current_user.id}), :method => :post, remote: true, class: "btn btn-primary request-btn" %>
+            <% else %>
+                <p>Your request for access is pending.</p>
+            <% end %>
+        </div>
+        <%= link_to 'log out', destroy_user_session_path, :method => :delete, class: "btn btn-default" %>
+    </div>
 <% end %>

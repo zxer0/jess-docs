@@ -1,0 +1,18 @@
+<span class="request">
+    <h4>
+        <span>
+            <%= request.user.email %>
+        </span>
+                
+        <span class="btn-group btn-group-xs" role="group">
+            <%= link_to '', 
+                        edit_user_path(request.user),
+                        remote: true,
+                        class: "btn btn-default glyphicon glyphicon-pencil" %>
+            <%= link_to '', request, 
+                        method: :delete,
+                        class: "delete_request btn btn-default glyphicon glyphicon-trash",
+                        :remote => true %>
+        </span>
+    </h4>
+</span>

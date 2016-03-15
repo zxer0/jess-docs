@@ -9,12 +9,18 @@
                 <div class="dropdown">
                   <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
                     <%= current_user.email %>
+                    <% if current_user.admin? %>
+                        <span class="requests-badge label label-danger label-as-badge"><%= @request_count %></span>
+                    <% end %>
                     <span class="caret"></span>
                   </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                  <ul class="dropdown-menu">
                     <% if current_user.admin? %>
                         <li class="dropdown-header">admin stuff</li>
-                        <li><%= link_to('manage users', users_path, remote: true) %></li>
+                        <li><%= link_to users_path, remote: true do %>
+                            manage users <span class="requests-badge label label-danger label-as-badge"><%= @request_count %></span>
+                            <% end %>
+                        </li>
                         <li><%= link_to "add project", 
                                     new_project_path,
                                     remote: true %></li>

@@ -1,0 +1,8 @@
+$('.delete_request').bind('ajax:success', function() {
+   $('.requests').html('<%= j(render partial: "requests/panel", object: @requests, as: :requests) %>');
+   var newRequestNum = +($('.requests-badge').first().text()) -1;
+   if (newRequestNum === 0){
+       newRequestNum = '';
+   }
+   $('.requests-badge').html(newRequestNum);
+});

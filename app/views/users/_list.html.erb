@@ -4,8 +4,20 @@
         <h4 class="modal-title">users</h4>
     </div>
     <div class="modal-body">
-        <%= render partial: "show", collection: @users, as: :user %>
+        
+        <div class="requests">
+            <%= render partial: "requests/panel", object: @requests, as: :requests %>
+        </div>
+        <div class="users panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">registered users</h3>
+            </div>
+             <div class="panel-body">
+                <%= render partial: "show", collection: @users, as: :user %>
+            </div>
+        </div>
     </div>
+    
     <div class="modal-footer">
         <%= link_to "okay", "#", class: "btn btn-primary", data: {dismiss: "modal"} %>
     </div>

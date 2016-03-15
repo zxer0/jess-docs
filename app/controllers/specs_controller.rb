@@ -167,7 +167,7 @@ class SpecsController < ApplicationController
     @selected_project_id = params[:projects][:project_id]
     
     Spec.parse_block(params[:text], @selected_project_id, parent_id)
-    filter_view
+    # filter_view
     # @specs = Spec.for_project(params[:project][:id]).roots
     
     # @print_specs_hash = get_spec_hash(Spec.for_project(@current_project_id))
@@ -289,6 +289,8 @@ class SpecsController < ApplicationController
       
       @filtered_spec_ids_array = []
       
+      @requests = Request.all
+      @request_count = @requests.count > 0 ? @requests.count : nil
       
       @tag_type_ids = params[:tag_types]
       
