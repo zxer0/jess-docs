@@ -42,7 +42,6 @@ class Spec < ActiveRecord::Base
     def to_hash
         {   :id => self.id,
             :description => self.description,
-            :spec_type => self.spec_type.name,
             :project_id => self.project_id,
             :bottom => self.bottom?,
             :can_indent => self.can_indent?,
