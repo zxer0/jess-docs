@@ -1,4 +1,4 @@
-<span>
+<span class="user">
     <h4>
         <span>
             <%= user.email %>
@@ -15,7 +15,7 @@
                             class: "btn btn-default glyphicon glyphicon-pencil" %>
                 <%= link_to '', user, 
                             method: :delete,
-                            class: "delete_tag_type btn btn-default glyphicon glyphicon-trash",
+                            class: "delete_user btn btn-default glyphicon glyphicon-trash",
                             :remote => true %>
             </span>
         <% end %>

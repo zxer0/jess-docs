@@ -10,6 +10,10 @@ class UsersController < ApplicationController
         @roles = Role.all
     end
     
+    def destroy
+        @user.destroy
+    end
+    
     def update
         respond_to do |format|
           if @user.update(user_params)
