@@ -23,7 +23,7 @@ class RequestsController < ApplicationController
   
   # GET /requests/poll
   def poll
-    @request_count = Request.all.count
+    @request_count = @requests.count > 0 ? @requests.count : nil
   end
 
   # POST /requests
