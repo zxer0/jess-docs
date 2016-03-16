@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :requests
+  
   devise_for :users
   root 'specs#index'
   
@@ -7,6 +7,11 @@ Rails.application.routes.draw do
     resources :users
   end
   
+  resources :requests do
+    collection do
+      get 'poll'
+    end
+  end
   resources :tickets
   resources :projects
   resources :tag_types

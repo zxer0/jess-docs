@@ -20,6 +20,11 @@ class RequestsController < ApplicationController
   # GET /requests/1/edit
   def edit
   end
+  
+  # GET /requests/poll
+  def poll
+    @request_count = Request.all.count
+  end
 
   # POST /requests
   # POST /requests.json
