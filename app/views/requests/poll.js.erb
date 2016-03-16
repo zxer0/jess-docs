@@ -1,6 +1,1 @@
-var requestNum = +($('.requests-badge').first().text());
-var newRequestNum = <%= @request_count %>;
-if (newRequestNum === 0){
-   newRequestNum = '';
-}
-$('.requests-badge').html(newRequestNum);
+<%= @request_count %>
