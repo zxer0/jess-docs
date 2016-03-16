@@ -18,6 +18,8 @@ class UsersController < ApplicationController
     def update
         respond_to do |format|
           if @user.update(user_params)
+            @user.request.destroy if @user.request
+            
             format.html { redirect_to users_path, notice: 'User was successfully updated.' }
             format.json { render :show, status: :ok, location: @user }
           else
