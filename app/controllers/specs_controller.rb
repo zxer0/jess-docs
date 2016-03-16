@@ -290,7 +290,7 @@ class SpecsController < ApplicationController
       @filtered_spec_ids_array = []
       
       @requests = Request.all
-      @request_count = @requests.count > 0 ? @requests.count : nil
+      @request_count = @requests.any? ? @requests.count : nil
       
       @tag_type_ids = params[:tag_types]
       
