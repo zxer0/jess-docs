@@ -6,6 +6,6 @@ $("ul.errors").html("");
 <% else %>
   $("#spec-modal").modal("hide");
 
-  $('#<%=@spec.id %> .spec-words').html("<span class='spec-type'><%= @spec.spec_type.name %></span> <%= @spec.description %>");
+  $('#<%=@spec.id %> .spec-words').html("<%= @spec.description %>");
 
 <% end %>

@@ -35,10 +35,11 @@
           <%= f.collection_select :spec_type_id, 
                                   @spec_types, 
                                   :id, 
-                                  :name, {},
-                                  {class: "form-control"} %>
+                                  :name, 
+                                  {selected: 1},
+                                  {class: "form-control hidden"} %>
        
-          <%= f.text_field 'description', {class: "form-control", style:"width:80%"} %>
+          <%= f.text_field 'description', {class: "form-control", style:"width:100%", placeholder: "should do some stuff" } %>
         </div>
         
         <% if !@parent.nil? %>
