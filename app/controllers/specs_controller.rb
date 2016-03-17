@@ -171,7 +171,7 @@ class SpecsController < ApplicationController
     # @specs = Spec.for_project(params[:project][:id]).roots
     
     # @print_specs_hash = get_spec_hash(Spec.for_project(@current_project_id))
-    redirect_to filter_tag_specs_path(:projects => {:project_id => @selected_project_id})
+    # redirect_to filter_tag_specs_path(:projects => {:project_id => @selected_project_id})
   end
   
   def bookmark

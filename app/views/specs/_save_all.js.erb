@@ -1,2 +1,3 @@
 $("#spec-modal").modal("hide");
-$(".full-spec-list").html("<%= j(render partial: "specs", collection: @specs, as: :spec) %>");
+var currentState = history.state;
+$.getScript("/specs/filter_tag.js" + currentState.params)
