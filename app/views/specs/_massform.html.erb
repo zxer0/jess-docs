@@ -3,7 +3,7 @@
     <div class="modal-header">
       <h4 class="modal-title">mass-add specs</h4>
     </div>
-    <%= form_tag('/specs/mass_add', method:'post', remote:true) do |f| %>
+    <%= form_tag('/specs/mass_add', method:'post', remote:true, class: "spec-form") do |f| %>
       <div class="modal-body">
         <ul class="errors"></ul>
         

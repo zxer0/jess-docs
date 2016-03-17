@@ -1,6 +1,6 @@
 $(document).ready(function () {
     
-    $(document).on("ajax:success", "form", function() {
+    $(document).on("ajax:success", ".spec-form", function() {
         $("#spec-modal").modal("hide");
         updateState();
     });

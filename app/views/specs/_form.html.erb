@@ -3,7 +3,7 @@
     <!--<div class="modal-header">-->
     <!--  <h4 class="modal-title">add new top-level spec</h4>-->
     <!--</div>-->
-    <%= form_for @spec, remote: true do |f| %>
+    <%= form_for @spec, remote: true, :html => {class: "spec-form"} do |f| %>
       <div class="modal-body">
         
         <% if @spec.errors.any? %>
