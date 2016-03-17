@@ -25,6 +25,8 @@ $(document).ready(function () {
     
     $(document).on("ajax:success", "form", function() {
         $("#spec-modal").modal("hide");
+        var currentState = location.search;
+        $.getScript("/specs/filter_tag.js" + currentState)
     });
     
 });

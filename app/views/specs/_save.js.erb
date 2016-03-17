@@ -3,24 +3,5 @@ $("ul.errors").html("");
   <% @spec.errors.full_messages.each do |message| %>
     $("ul.errors").append($("<li />").html("<%= message.html_safe %>"));
   <% end %>
-<% else %>
-  $("#spec-modal").modal("hide");
-  
-  var specSpan = $('.s<%=@child_id %>');
-  
-  if(specSpan.length){
-    specSpan.fadeOut();
-    specSpan.remove();
-  }
-
-  <% if @spec.parent.present? %>
-    $('.s<%=@spec.parent.id %>').replaceWith("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
-    $('.s<%=@spec.parent.id %> .delete_tag').removeClass('hidden');
-    $('.s<%=@spec.parent.id %> .spec-buttons').addClass('in');
-  <% else %>
-    $('.full-spec-list').append("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
-  <% end %>
-  
-  
 
 <% end %>

@@ -1,12 +1,3 @@
 $('.indent_spec').bind('ajax:success', function() {
     $('.s<%=@spec.id%> [data-toggle="tooltip"]').tooltip('destroy');
-    $('.s<%=@spec.id%>').fadeOut();
-    $('.s<%=@spec.id%>').remove();
-    
-    <% if @spec.root? %>
-        var oldParentElem = $('.s<%= @old_parent_id %>');
-        oldParentElem.after("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
-    <% else %>
-        $('.s<%=@new_parent.id%>').replaceWith("<%= j(render partial: "specs", collection: @print_specs_hash, as: :spec) %>");
-    <% end %>
 });

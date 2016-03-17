@@ -17,10 +17,7 @@ function filter() {
     $.xhrPool.abortAll();
     var formElem = $('#tag-form');
     var formParams = "?" + formElem.serialize();
-    var currentState = {params: formParams}
-    history.pushState({params: formParams}, "", formParams);
-    
-    
+    history.pushState(null, "", formParams);
     formElem.submit();
 }
 
