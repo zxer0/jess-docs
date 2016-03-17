@@ -12,3 +12,4 @@ Rails.application.config.assets.version = '1.0'
 
 Rails.application.config.assets.precompile += %w( editable.js )
 Rails.application.config.assets.precompile += %w( filtertag.js )
+Rails.application.config.assets.precompile += %w( favicon.ico )
